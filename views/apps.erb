@@ -16,7 +16,7 @@ The apps below are currently registered on Versioner as of <%= Time.now %>.
   link_description = f["link_description"]
 %>  
 
-  <tr><td><h2>#<%= app_name %> <a class="btn btn-default" href="/edit/<%= guid %>">Edit</a></h2></td></tr>
+  <tr><td><h2><a name="<%= app_name.downcase.strip.gsub(/\s+/, "_") %>"><%= app_name %></a> <a class="btn btn-default" href="/edit/<%= guid %>">Edit</a></h2></td></tr>
   <tr><td><%= app_description %></td></tr>
   <tr><td><b>Guid</b>: <%= guid %></td></tr>
   <tr><td><b>Version</b>: <%= version %></td></tr>

@@ -77,7 +77,6 @@ get '/guid/:guid/text/:del' do
 end
 
 post '/submit/:is_edit' do
-  @_id = params[:_id]
   @app_name = params[:app_name]
   @app_description = params[:app_description]
   @guid = params[:guid]
@@ -90,7 +89,7 @@ post '/submit/:is_edit' do
 
   $fb_apps.push(@guid, :_id => @id, :app_name => @app_name, :app_description => @app_description, :guid => @guid, :version => @version, :get_link => @get_link, :link_description => @link_description)
   
-  redirect to('/apps')
+  redirect to('/apps#' + @app_name.downcase.strip.gsub(/\s+/, "_")) #Add anchor to find app in big list
 end
 
 
