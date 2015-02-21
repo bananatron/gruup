@@ -1,0 +1,56 @@
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <style>
+  code{
+    line-height: 200%;
+  }
+  body {
+    line-height: 150%;
+    margin:20px;
+  }
+  p{
+    line-height: 150%;
+  }
+  h1 {
+    font-weight: 700;
+  }
+  td {
+    padding: 5px;
+  }
+  span.tag {
+    padding-left: 10px;
+  }
+  .form-control {
+    width: 50%;
+  }
+  .logo{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+  }
+  a.logo{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    color: #000;
+  }
+  a.logo:hover{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+  }
+</style>
+
+<body>
+<ol class="breadcrumb">
+  <li class="logo"><a class="logo" href="/">Versioner</a></li>
+  <li><a href="/apps">Apps</a></li>
+  <li><a href="/docs">Docs</a></li>
+  <li><a href="/submit">Submit</a></li>
+</ol>
+   <%= yield %>
+</body>
+
+  <br><br>
+  <small><span class="logo">Versioner</span><br>&copy; Runding 2015</small>
+</html>

@@ -1,0 +1,27 @@
+<h1>Versioner Apps</h1>
+The apps below are currently registered on Versioner as of <%= Time.now %>.
+<br>You can register a new app at any time and follow the instructions to check versions.
+<br>
+<table>
+<%
+@fb.get("/apps").body.each do |entry_array|
+  
+  f = entry_array[1].first[1]
+  
+  _id = f["_id"]
+  app_name = f["app_name"]
+  app_description = f["app_description"]
+  guid = f["guid"]
+  version = f["version"]
+  get_link = f["get_link"]
+  link_description = f["link_description"]
+%>  
+
+  <tr><td><h2>> <%= app_name %></h2></td></tr>
+  <tr><td><%= app_description %></td></tr>
+  <tr><td><b>Id</b>: <%= _id %></td></tr>
+  <tr><td><b>Guid</b>: <%= guid %></td></tr>
+  <tr><td><b>Version</b>: <%= version %></td></tr>
+
+<% end %>
+</table>

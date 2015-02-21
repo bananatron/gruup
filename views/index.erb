@@ -1,0 +1,68 @@
+<h1>Runding Versioner</h1><br>
+<h3>What It Do?</h3>
+<p>Versioner is a small web API for setting and getting version numbers, intended for use with desktop applications.<br>
+It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Heroku.
+<br><br>
+<h3>How Does It Work?</h3>
+
+<table><tr><td style="vertical-align:middle">
+<p>This web API can be called from any application, which will return version and application information to be compared against the host. In a Windows Forms appplication, you might make a recall like this:</p>
+
+  
+<code>
+  //Get Version and Guid from Application<br>
+  var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;<br>
+  var app_guid = Assembly.GetExecutingAssembly().GetType().GUID.ToString();<br>
+  <br>
+  var results = "";<br>
+  List<string> results_list = new List<string>();<br>
+<br>
+  // Create the web request  <br>
+  HttpWebRequest request = WebRequest.Create("http://versioner.herokuapp.com" + app_guid + "/text") as HttpWebRequest;<br>
+<br>
+  // Get response  <br>
+  using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {<br>
+  &nbsp;&nbsp;// Get the response stream  <br>
+  &nbsp;&nbsp;StreamReader reader = new StreamReader(response.GetResponseStream());<br>
+<br>
+
+  &nbsp;&nbsp;//By default, calling a <b>text</b> request from Versioner uses a '^' delimeter<br>
+  &nbsp;&nbsp;results = reader.ReadToEnd();<br>
+  &nbsp;&nbsp;string[] results_array = results.Split('^');<br>
+  &nbsp;&nbsp;//Find any relevant data from response<br>
+  &nbsp;&nbsp;var app_name = results_array[0];<br>
+  &nbsp;&nbsp;var app_description = results_array[1];<br>
+  &nbsp;&nbsp;var get_link = results_array[2];<br>
+  &nbsp;&nbsp;var v = results_array[3];<br>
+<br>
+  &nbsp;&nbsp;if (v != version.ToString()){<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("There is a new version of this application. Please visit " +get_link+ " for the newest version!" );<br>
+  &nbsp;&nbsp;}<br>
+}<br><br>
+  //C#
+  
+  
+</code>
+<br><br>
+  </td>
+  <td style="vertical-align:top">
+  <p>You can <a href="/submit">add</a> and edit versioner apps on the versioner database. The Versioner routes are based on the unique identifier you set the application.</p>
+    <p>For example, a <b>GET</b> from <a href="http://versioner.herokuapp.com/123x/text">http://versioner.herokuapp.com/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
+<code>
+  Demo App^Brief description about demo app.^http://runding.com/download^1.0.2.1Description to go along with download link.<br>
+</code><br><br>
+<p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="http://versioner.herokuapp.com/123x/json">http://versioner.herokuapp.com/123x/json</a> would return something like:</p>
+<code><br>
+["-JidXAgsmB2TwvlODUcz", <br>
+  {"app_description"=>"Brief description about demo app.",<br> "app_name"=>"Demo App",<br> "get_link"=>"http://runding.com/download",<br> "guid"=>"123x",<br> "link_description"=>"Description to go along with download link.",<br> "version"=>"1.0.2.1"}<br>
+  ]<br>
+  <br>
+</code><br>
+    Check out the <a href="/docs">docs</a> for more examples and information.
+  
+</code>
+  </td>
+
+  </tr>
+
+</table>
