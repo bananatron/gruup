@@ -37,7 +37,7 @@ A .NET application will generate a new GUID for each assembly (I think), which m
   List<string> results_list = new List<string>();<br>
 <br>
   // Create the web request  <br>
-  HttpWebRequest request = WebRequest.Create("http://versioner.herokuapp.com" + app_guid + "/text") as HttpWebRequest;<br>
+  HttpWebRequest request = WebRequest.Create("http://versioneer.herokuapp.com" + app_guid + "/text") as HttpWebRequest;<br>
 <br>
   // Get response  <br>
   using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {<br>
@@ -69,5 +69,9 @@ Records can be created and edited through the web UI, but must be removed direct
   
 <h2>Version Data Security</h2>
 There is none. Build for cases where your application can't make a connection to the web service and/or can't find your record.
+<br><br>
+  
+<h2>Questions?</h2>
+Ask lil' skippy.<br><small>Or Spenser...</small>
 <br><br>
   

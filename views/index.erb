@@ -26,7 +26,7 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
   &nbsp;&nbsp;StreamReader reader = new StreamReader(response.GetResponseStream());<br>
 <br>
 
-  &nbsp;&nbsp;//By default, calling a <b>text</b> request from Versioner uses a '^' delimeter<br>
+  &nbsp;&nbsp;//By default, calling a <b>text</b> request from Versioneer uses a '^' delimeter<br>
   &nbsp;&nbsp;results = reader.ReadToEnd();<br>
   &nbsp;&nbsp;string[] results_array = results.Split('^');<br>
   &nbsp;&nbsp;//Find any relevant data from response<br>
@@ -46,12 +46,12 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
 <br><br>
   </td>
   <td style="vertical-align:top">
-  <p>You can <a href="/submit">add</a> and edit versioner apps on the versioner database. The Versioner routes are based on the unique identifier you set the application.</p>
-    <p>For example, a <b>GET</b> from <a href="http://versioner.herokuapp.com/guid/123x/text">http://versioner.herokuapp.com/guid/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
+  <p>You can <a href="/submit">add</a> and edit versioneer apps on the versioneer database. The Versioneer routes are based on the unique identifier you set the application.</p>
+    <p>For example, a <b>GET</b> from <a href="/guid/123x/text">http://versioneer.herokuapp.com/guid/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
 <code>
   Demo App^Brief description about demo app.^http://runding.com/download^1.0.2.1^Description to go along with download link.<br>
 </code><br><br>
-<p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="http://versioner.herokuapp.com/guid/123x/json">http://versioner.herokuapp.com/guid/123x/json</a> would return something like:</p>
+<p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="/guid/123x/json">http://versioneer.herokuapp.com/guid/123x/json</a> would return something like:</p>
 <code><br>
 ["-JidXAgsmB2TwvlODUcz", <br>
   {"app_description"=>"Brief description about demo app.",<br> "app_name"=>"Demo App",<br> "get_link"=>"http://runding.com/download",<br> "guid"=>"123x",<br> "link_description"=>"Description to go along with download link.",<br> "version"=>"1.0.2.1"}<br>

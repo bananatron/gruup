@@ -2,7 +2,7 @@
 The apps below are currently registered on Versioner as of <%= Time.now %>.
 <br>You can <a href="/submit">register a new app</a> at any time and <a href="/docs">follow the instructions</a> to check versions.
 <br><br>
-<table>
+
 <%
 @fb.get("/apps").body.each do |entry_array|
   
@@ -15,13 +15,14 @@ The apps below are currently registered on Versioner as of <%= Time.now %>.
   get_link = f["get_link"]
   link_description = f["link_description"]
 %>  
-
+  <table>
   <tr><td><h2><a name="<%= app_name.downcase.strip.gsub(/\s+/, "_") %>"><%= app_name %></a> <a class="btn btn-default" href="/edit/<%= guid %>">Edit</a></h2></td></tr>
   <tr><td><%= app_description %></td></tr>
   <tr><td><b>Guid</b>: <%= guid %></td></tr>
   <tr><td><b>Version</b>: <%= version %></td></tr>
   <tr><td><b>Link</b>: <a href="<%= get_link if get_link%>"><%= get_link if get_link %></a></td></tr>
-  <tr><td><b>Link Description</b>: <%= link_description if link_description %><br><br></td></tr>
-  
+  <tr><td><b>Link Description</b>: <%= link_description if link_description %></td></tr>
+  </table><br>
+<hr>
 <% end %>
-</table>
+
