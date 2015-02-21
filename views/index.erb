@@ -6,7 +6,7 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
 <h3>How Does It Work?</h3>
 
 <table><tr><td style="vertical-align:middle">
-<p>This web API can be called from any application, which will return version and application information to be compared against the host. In a Windows Forms appplication, you might make a recall like this:</p>
+<p>This web API can be called from any application, which will return version and application information to be compared against the host. In a Windows Forms appplication, you might make a call like this:</p>
 
   
 <code>
@@ -47,11 +47,11 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
   </td>
   <td style="vertical-align:top">
   <p>You can <a href="/submit">add</a> and edit versioner apps on the versioner database. The Versioner routes are based on the unique identifier you set the application.</p>
-    <p>For example, a <b>GET</b> from <a href="http://versioner.herokuapp.com/123x/text">http://versioner.herokuapp.com/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
+    <p>For example, a <b>GET</b> from <a href="http://versioner.herokuapp.com/guid/123x/text">http://versioner.herokuapp.com/guid/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
 <code>
   Demo App^Brief description about demo app.^http://runding.com/download^1.0.2.1Description to go along with download link.<br>
 </code><br><br>
-<p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="http://versioner.herokuapp.com/123x/json">http://versioner.herokuapp.com/123x/json</a> would return something like:</p>
+<p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="http://versioner.herokuapp.com/guid/123x/json">http://versioner.herokuapp.com/guid/123x/json</a> would return something like:</p>
 <code><br>
 ["-JidXAgsmB2TwvlODUcz", <br>
   {"app_description"=>"Brief description about demo app.",<br> "app_name"=>"Demo App",<br> "get_link"=>"http://runding.com/download",<br> "guid"=>"123x",<br> "link_description"=>"Description to go along with download link.",<br> "version"=>"1.0.2.1"}<br>
@@ -62,7 +62,5 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
   
 </code>
   </td>
-
   </tr>
-
-</table>
+  </table>
