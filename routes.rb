@@ -46,7 +46,7 @@ get '/guid/:guid/text' do
   version = r_hash["version"]
   link_description = r_hash["link_description"]
   
-  app_name + del + app_description + del + get_link + del + version + del = link_description
+  app_name + del + app_description + del + get_link + del + version + del + link_description
 end
 
 get '/guid/:guid/text/:del' do
