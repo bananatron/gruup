@@ -45,7 +45,7 @@ get '/guid/:guid/json' do
   content_type :json
   @guid = params[:guid]
   "asdfasdf"
-  @result = $fb_apps.get("/"+@guid).body
+  @result = $fb_apps.get("/"+@guid).body.to_json
 end
 
 get '/guid/:guid/text' do
