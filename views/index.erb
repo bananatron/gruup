@@ -22,7 +22,7 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
   List<string> results_list = new List<string>();<br>
 <br>
   // Create the web request  <br>
-  HttpWebRequest request = WebRequest.Create("http://versioner.herokuapp.com" + app_guid + "/text") as HttpWebRequest;<br>
+  HttpWebRequest request = WebRequest.Create("http://versioneer.herokuapp.com" + app_guid + "/text") as HttpWebRequest;<br>
 <br>
   // Get response  <br>
   using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {<br>
