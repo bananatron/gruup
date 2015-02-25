@@ -44,15 +44,27 @@
 </style>
 
 <body>
+  
 <ol class="breadcrumb">
   <li class="logo"><a class="logo" href="/">Versioneer</a></li>
   <li><a href="/apps">Apps</a></li>
   <li><a href="/docs">Docs</a></li>
   <li><a href="/submit">Submit</a></li>
+  <% if session['user'] %>
+  <li><a href="/logout">Logout</a></li>
+  <% else  %>
+  <li><a href="/login">Login</a></li>
+  <% end %>
 </ol>
+<br>
+<% if @notice %>
+  <div class="alert alert-danger" role="alert"> <%= @notice %> </div>
+<% end %>
+  
    <%= yield %>
 </body>
 
   <br><br>
-  <small><span class="logo">Versioneer</span></small><br>v.1.0 /  2015
+  <small><span class="logo">Versioneer</span></small><br>v.1.1 /  2015
 </html>
+

@@ -1,4 +1,4 @@
-<h1>Submit An App</h1>
+<h1>Edit</h1>
 Submit an application for version tracking through versioner below, then follow the instructions to get your app to talk to versioner.
 <br><br>
 <form name="app_submission" action="/submit/true" method="post">
@@ -26,7 +26,10 @@ Submit an application for version tracking through versioner below, then follow 
     <label for="link_description">Download Link Description</label>
     <input type="text" class="form-control" name="link_description" placeholder="Description for download link" value="<%= @link_description %>">
   </div>
-
+  <div class="form-group">
+    <label for="app_name">Old guid</label>
+    <input type="text" class="form-control" name="old_guid" value="<%= @guid %>">
+  </div>
   
   <button type="submit" class="btn btn-default">Submit</button>
 </form>

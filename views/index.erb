@@ -1,6 +1,6 @@
 <h1>Versioneer</h1><br>
 
-<img src="images/hills.jpg">
+<img src="/images/hills.jpg">
 <!-- image source: http://www.deviantart.com/art/Mountains-347052199 -->
 
 <h3>What It Do?</h3>
@@ -53,13 +53,12 @@ It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Her
   <p>You can <a href="/submit">add</a> and edit versioneer apps on the versioneer database. The Versioneer routes are based on the unique identifier you set the application.</p>
     <p>For example, a <b>GET</b> from <a href="/guid/123x/text">http://versioneer.herokuapp.com/guid/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
 <code>
-  Demo App^Brief description about demo app.^http://runding.com/download^1.0.2.1^Description to go along with download link.<br>
+  Demo App^Brief description about demo app^http://runding.com/download^1.0.2.1^Description to go along with download link.<br>
 </code><br><br>
 <p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="/guid/123x/json">http://versioneer.herokuapp.com/guid/123x/json</a> would return something like:</p>
 <code><br>
-["-JidXAgsmB2TwvlODUcz", <br>
-  {"app_description"=>"Brief description about demo app.",<br> "app_name"=>"Demo App",<br> "get_link"=>"http://runding.com/download",<br> "guid"=>"123x",<br> "link_description"=>"Description to go along with download link.",<br> "version"=>"1.0.2.1"}<br>
-  ]<br>
+  {"app_description":"Brief description about demo app",<br>"app_name":"Demo App",<br>"get_link":"http://runding.com/download",<br>"guid":"123x",<br>"link_description":"Description to go along with download link.",<br>"user":"spenser",<br>"version":"1.0.2.1"}<br>
+
   <br>
 </code><br>
     Check out the <a href="/docs">docs</a> for more examples and information.

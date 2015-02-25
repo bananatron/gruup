@@ -4,25 +4,26 @@ The apps below are currently registered on Versioneer as of <%= Time.now %>.
 <br><br>
 
 <%
-@fb.get("/apps").body.each do |entry_array|
-  
-  f = entry_array[1].first[1]
-  
+@fb.each do |entry_array|
+  f = entry_array[1]
   app_name = f["app_name"]
   app_description = f["app_description"]
   guid = f["guid"]
   version = f["version"]
   get_link = f["get_link"]
   link_description = f["link_description"]
+  user = f["user"]
 %>  
   <table>
-  <tr><td><h2><a name="<%= app_name.downcase.strip.gsub(/\s+/, "_") %>"><%= app_name %></a> <a class="btn btn-default" href="/edit/<%= guid %>">Edit</a></h2></td></tr>
-  <tr><td><%= app_description %></td></tr>
-  <tr><td><b>Guid</b>: <%= guid %></td></tr>
-  <tr><td><b>Version</b>: <%= version %></td></tr>
-  <tr><td><b>Link</b>: <a href="<%= get_link if get_link%>"><%= get_link if get_link %></a></td></tr>
-  <tr><td><b>Link Description</b>: <%= link_description if link_description %></td></tr>
+    <tr><td><h2><a name="<%= app_name.downcase.strip.gsub(/\s+/, "_") %>"><%= app_name %></a> <a class="btn btn-default" href="/edit/<%= guid %>">Edit</a></h2></td></tr>
+    <tr><td><%= app_description if app_description %></td></tr>
+    <tr><td><b>Guid</b>: <%= guid if guid %></td></tr>
+    <tr><td><b>Version</b>: <%= version if version %></td></tr>
+    <tr><td><b>Link</b>: <a href="<%= get_link if get_link%>"><%= get_link if get_link %></a></td></tr>
+    <tr><td><b>Link Description</b>: <%= link_description if link_description %></td></tr>
+    <tr><td><b>Created by</b>: <%= user if user %></td></tr>
   </table><br>
 <hr>
+
 <% end %>
 

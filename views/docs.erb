@@ -6,7 +6,7 @@
 <div><h3><a target="_blank" href="/guid/123x/text">/guid/(unique id)/text</a></h3>
 This route will return a text/string in the following format (using a '^' delimiter):
   <br>
-  <code>Demo App^Brief description about demo app.^http://runding.com/download^1.0.2.1^Description to go along with download link. <br>
+  <code>Demo App^Brief description about demo app^http://runding.com/download^1.0.2.1^Description to go along with download link.<br>
 <i> (App name) ^ (App description) ^ (Download link) ^ (Current version) ^ (Download link description)</i></code>
 </div>
 
@@ -19,8 +19,7 @@ This route will return a text/string in the standard text format as shown above,
 This route will return the raw JSON blob from the database, for the identifier specified, as shown below:
   <br>
   <code>
-["-JidXAgsmB2TwvlODUcz",
-  {"app_description"=>"Brief description about demo app.", "app_name"=>"Demo App", <br>"get_link"=>"http://runding.com/download","guid"=>"123x", "link_description"=>"Description to go along with download link.",<br> "version"=>"1.0.2.1"} ]
+{"app_description":"Brief description about demo app","app_name":"Demo App","get_link":"http://runding.com/download","guid":"123x","link_description":"Description to go along with download link.","user":"spenser","version":"1.0.2.1"}
   <br>
   </code>
 </div>
@@ -68,10 +67,18 @@ Records can be created and edited through the web UI, but must be removed direct
 <br><br>
   
 <h2>Version Data Security</h2>
-There is none. Build for cases where your application can't make a connection to the web service and/or can't find your record.
+<strike>There is none.</strike> (v1.1)<br>
+Versioneer uses rudamentary authentication via record/user data stored on Firebase using encrypted passwords and secret keys. Only the user who created the entry will have access to edit it, although anyone can call for the version information.<br>Regardless, build for cases where your app can't connect to the web service and/or can't retreive the info.
 <br><br>
   
 <h2>Questions?</h2>
 Ask lil' skippy.<br><small>Or Spenser...</small>
+<br><br>
+    
+<h2>Changelog</h2>
+  <b>TODO</b> - Add additional app record form validations<br>
+  <b>1.1</b> - Added sessions & authentication<br>
+  <b>1.1</b> - Restructured db for faster sets/gets<br>
+  <b>1.0</b> - Initial release
 <br><br>
   
