@@ -12,7 +12,7 @@ $cookie_key =  $fb_root.get("/key").body.to_s
 
 configure :development do
   set :bind, '0.0.0.0'
-  set :port, 4000
+  set :port, 3000
 end
 
 
@@ -161,6 +161,30 @@ get '/guid/:guid/json' do
   @result = $fb_apps.get("/"+@guid).body.to_json
 end
 
+
+get '/guid/:guid/field/:field' do
+  content_type :text
+  guid = params[:guid]
+  field = params[:field]
+  r_hash = $fb_apps.get("/"+guid).body
+  results = r_hash[field]
+  results
+end
+
+get '/guid/:guid/fields' do
+  content_type :text
+  guid = params[:guid]
+  r_hash = $fb_apps.get("/"+guid).body
+  results = []
+  
+  r_hash.each do |k, v|
+    results << k if v.length > 0
+  end
+  
+  results.join(",")
+end
+
+
 get '/guid/:guid/text' do
   del = "^"
   content_type :text
@@ -171,8 +195,9 @@ get '/guid/:guid/text' do
   get_link = r_hash["get_link"]
   version = r_hash["version"]
   link_description = r_hash["link_description"]
+  results = app_name + del + app_description + del + get_link + del + version + del + link_description
   
-  app_name + del + app_description + del + get_link + del + version + del + link_description
+  results
 end
 
 get '/guid/:guid/text/:del' do

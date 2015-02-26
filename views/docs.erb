@@ -11,19 +11,39 @@ This route will return a text/string in the following format (using a '^' delimi
 </div>
 
 <div><h3><a target="_blank" href="/guid/123x/text/&_&">/guid/(unique id)/text/(custom delimiter)</a></h3>
-This route will return a text/string in the standard text format as shown above, but you can supply your own delimiting character.
-  <br>
+This route will return a text/string in the standard text format as shown above, but you can supply your own delimiting character. Calling this route using a '&_&'' delimter would return:<br>
+    <code>
+Demo App&_&Brief description about demo app&_&http://runding.com/download&_&1.0.2.1&_&Description to go along with download link.<br>
+  </code>
 </div>
 
 <div><h3><a target="_blank" href="/guid/123x/json">/guid/(unique id)/json</a></h3>
-This route will return the raw JSON blob from the database, for the identifier specified, as shown below:
-  <br>
+This route will return the raw JSON blob from the database, for the identifier specified, as shown below:<br>
   <code>
-{"app_description":"Brief description about demo app","app_name":"Demo App","get_link":"http://runding.com/download","guid":"123x","link_description":"Description to go along with download link.","user":"spenser","version":"1.0.2.1"}
-  <br>
+{"app_description":"Brief description about demo app","app_name":"Demo App","get_link":"http://runding.com/download","guid":"123x","link_description":"Description to go along with download link.","user":"spenser","version":"1.0.2.1"}<br>
   </code>
 </div>
+
+
+<div><h3><a target="_blank" href="/guid/123x/fields">/guid/(unique id)/fields</a></h3>
+This route will return all fields which are used for that item. If a field is left blank, it will not be returned on this call.<br>
+  <code>
+  app_description,app_name,get_link,guid,link_description,user,version<br>
+  </code>
+</div>
+
+
+<div><h3><a target="_blank" href="/guid/123x/field/app_description">/guid/(unique id)/field/(specific field name)</a></h3>
+This route will return the value of a specific field you define. This route, when asking for the 'link_description' would return:<br>
+  <code>
+  Description to go along with download link.<br>
+  </code>
+</div>
+
+
+
 <br><br>
+
 
 <h2>.NET Example</h2>
 A .NET application will generate a new GUID for each assembly (I think), which means it's probably the best identifier to use for version tracking. Alternatively, you can make your unique identifier anything (as long as it doesn't already exist in the db), and simply use that identifier in your web service calls. Below is a C# example of a .NET application which refers to it's current version and assembly guid.<br><br>
@@ -76,7 +96,8 @@ Ask lil' skippy.<br><small>Or Spenser...</small>
 <br><br>
     
 <h2>Changelog</h2>
-  <b>TODO</b> - Add additional app record form validations<br>
+  <b>TODO</b> - Add app record form validations<br>
+  <b>1.2</b> - Added new routes for field queries.
   <b>1.1</b> - Added sessions & authentication<br>
   <b>1.1</b> - Restructured db for faster sets/gets<br>
   <b>1.0</b> - Initial release
