@@ -114,6 +114,9 @@ get '/logout' do
   redirect to('/')
 end
 
+get '/changelog' do 
+  erb :changelog
+end
 
 
 
