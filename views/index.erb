@@ -1,69 +1,98 @@
-<h1>Versioneer</h1><br>
 
-<img src="/images/hills.jpg">
-<!-- image source: http://www.deviantart.com/art/Mountains-347052199 -->
+<chat-window>
+<messages>
 
-<h3>What It Do?</h3>
-<p>Versioneer is a small web API for setting and getting version numbers, intended for use with desktop applications.<br>
-It's built on Sinatra, uses Firebase for it's data storage, and is hosted on Heroku.
-<br><br>
-<h3>How Does It Work?</h3>
+</messages>
+</chat-window>
 
-<table><tr><td style="vertical-align:middle">
-<p>This web API can be called from any application, which will return version and application information to be compared against the host. In a Windows Forms appplication, you might make a call like this:</p>
 
+<% if @username %>
+<div class='textmock' contenteditable>
+<!--  <div class="submit_button">Submit</div>-->
+</div>
+<div class="submit-button">Submit</div>
+<% end %>
+
+<script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script>
+
+ var chatUsers = new Firebase("https://h4xchat.firebaseio.com/users");
+ var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/bros");
+  firebaseRef.on('child_added', function(snap) {
+    
+    var msg = snap.val();
+    createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
+    $("chat-window").animate({ scrollTop: 1000 }, 0);
+    
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
   
-<code>
-  //Get Version and Guid from Application<br>
-  var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;<br>
-  var app_guid = Assembly.GetExecutingAssembly().GetType().GUID.ToString();<br>
-  <br>
-  var results = "";<br>
-  List<string> results_list = new List<string>();<br>
-<br>
-  // Create the web request  <br>
-  HttpWebRequest request = WebRequest.Create("http://versioneer.herokuapp.com" + app_guid + "/text") as HttpWebRequest;<br>
-<br>
-  // Get response  <br>
-  using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {<br>
-  &nbsp;&nbsp;// Get the response stream  <br>
-  &nbsp;&nbsp;StreamReader reader = new StreamReader(response.GetResponseStream());<br>
-<br>
-
-  &nbsp;&nbsp;//By default, calling a <b>text</b> request from Versioneer uses a '^' delimeter<br>
-  &nbsp;&nbsp;results = reader.ReadToEnd();<br>
-  &nbsp;&nbsp;string[] results_array = results.Split('^');<br>
-  &nbsp;&nbsp;//Find any relevant data from response<br>
-  &nbsp;&nbsp;var app_name = results_array[0];<br>
-  &nbsp;&nbsp;var app_description = results_array[1];<br>
-  &nbsp;&nbsp;var get_link = results_array[2];<br>
-  &nbsp;&nbsp;var v = results_array[3];<br>
-<br>
-  &nbsp;&nbsp;if (v != version.ToString()){<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("There is a new version of this application. Please visit " +get_link+ " for the newest version!" );<br>
-  &nbsp;&nbsp;}<br>
-}<br><br>
-  //C#
+  $( ".submit-button" ).click(function() {
+    sendMessage();
+  });
+  
+  $(".textmock").keyup(function (e) {
+    if (e.keyCode == 13) { //Allows shift
+        sendMessage();
+    }
+  });
   
   
-</code>
-<br><br>
-  </td>
-  <td style="vertical-align:top">
-  <p>You can <a href="/submit">add</a> and edit versioneer apps on the versioneer database. The Versioneer routes are based on the unique identifier you set the application.</p>
-    <p>For example, a <b>GET</b> from <a href="/guid/123x/text">http://versioneer.herokuapp.com/guid/123x/text</a> (where 123x is your unique identifier) would return something like:</p><br>
-<code>
-  Demo App^Brief description about demo app^http://runding.com/download^1.0.2.1^Description to go along with download link.<br>
-</code><br><br>
-<p>You can get the raw JSON from the Firebase db by adding /json to the root route. For example, <a href="/guid/123x/json">http://versioneer.herokuapp.com/guid/123x/json</a> would return something like:</p>
-<code><br>
-  {"app_description":"Brief description about demo app",<br>"app_name":"Demo App",<br>"get_link":"http://runding.com/download",<br>"guid":"123x",<br>"link_description":"Description to go along with download link.",<br>"user":"spenser",<br>"version":"1.0.2.1"}<br>
-
-  <br>
-</code><br>
-    Check out the <a href="/docs">docs</a> for more examples and information.
+  //Sends message to firebase
+  var sendMessage = function(){
+    
+    if ($('.textmock').text().trim() != "") {
+      
+      var dt = new Date();
+      var dlit = dt.toDateString();
+      var gooddate = dt.getMonth() + '/' + dt.getDay() + '/' + dt.getFullYear() + ' ' + dt.getHours() + ':' + dt.getMinutes();
+      
+      firebaseRef.push({
+        message: $('.textmock').text(),
+        timestamp: gooddate,
+        author: $('.user-data').text(),
+        fulldate: dlit
+      });
+      
+      $('.textmock').empty();
+      
+      var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
+      
+    }
+  }
   
-</code>
-  </td>
-  </tr>
-  </table>
+  //Creates message and appends to messages box
+  var createMessage = function(message, id, time, author){
+    
+    var msg = this.view = document.createElement("message");
+    msg.setAttribute('id', id);
+    
+    var aa = msg.appendChild(document.createElement("div"));
+    aa.setAttribute('class', 'author');
+    aa.innerHTML = author;
+    aa.setAttribute('style', 'background-color:#'+ $('#user-color').text());
+    
+    var uu = new Firebase(chatUsers + '/' + author);
+    uu.once("value", function(data) {
+      aa.setAttribute('style', 'background-color:#'+ data.val().color)
+    });
+    
+    
+    var mm = msg.appendChild(document.createElement("div"));
+    mm.setAttribute('class', 'message');
+    mm.innerHTML = message;
+    
+    var tt = msg.appendChild(document.createElement("div"));
+    tt.setAttribute('class', 'timestamp');
+    tt.innerHTML = time;
+ 
+    $(msg).appendTo('messages');
+    
+  }
+
+
+  
+</script>

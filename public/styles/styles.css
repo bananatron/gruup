@@ -1,0 +1,188 @@
+body {
+  font-family: 'Share Tech Mono';
+  background: #121212;
+  color: #fff;
+  cursor: default;
+  padding: 10px;
+}
+
+chat-window {
+  display:block;
+  height:70%;
+  overflow-y:scroll;
+}
+
+a {
+    color:#FFE6B2;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+a:hover {
+    color:#fff;
+}
+
+
+.user-data {
+    position:absolute;
+    right:20;
+    top: 10;
+    color: rgba(255, 255, 255, 0.2) !important;
+}
+.sh:hover {
+    text-decoration:line-through;
+}
+
+messages {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  
+}
+
+message {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #1A1A1A;
+  padding: 5px 0 5px 0;
+  margin: 2px 5px 2px 0; /* to account for scrollbar */
+}
+
+message > div {
+  padding: 5px 10px 5px 10px;
+}
+
+message .message {
+  /*  background-color:lightsalmon;*/
+  
+  -webkit-box-flex: 10;
+  
+  -webkit-flex-grow: 10;
+  
+      -ms-flex-positive: 10;
+  
+          flex-grow: 10;
+}
+
+message .author {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #158969;
+  min-width: 100px;
+  margin: 0px 5px 0 5px;
+}
+
+.author:hover {
+  margin: 0 10px 0 0;
+}
+
+message .timestamp {
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+      -ms-flex-order: 1;
+          order: 1;
+  color: rgba(255, 255, 255, 0.1);
+  min-width:100px;
+  text-align:right;
+}
+
+message .timestamp:hover {
+  color: rgba(255, 255, 255, 0.8)
+}
+
+.textmock {
+  border: 0px solid #0D0D0D;
+  cursor: text;
+  padding: 10px;
+  margin: 2px 0 0 0;
+  background-color: #1A1A1A;
+  height: 3em;
+  overflow: auto;
+  outline: none;
+}
+
+.submit-button {
+  text-transform:uppercase;
+  text-align:center;
+  padding: 5px;
+  height:1em;
+  background-color:#1F1F1F;
+}
+
+.submit-button-active {
+  background-color:#1A1A1A;
+}
+
+textarea {
+  display: none;
+}
+
+
+message {
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+input {
+  padding:5px 10px 5px 10px;
+  font-family: 'Share Tech Mono';
+  background-color: #1A1A1A;
+  border: 0px;
+  margin-top:5px;
+  color:#fff;
+}
+
+button {
+  margin-top:20px;
+  font-family: 'Share Tech Mono';
+  border: 0px;
+  padding: 5px 10px 5px 10px;
+  background-color:#FFE6B2;
+  color:#000;
+  transition: background-color, 0.5s;
+}
+
+button:hover {
+  background-color:#fff;
+}
+
+::-webkit-scrollbar { width: 3px; height: 3px;}
+::-webkit-scrollbar-button {  background-color: #666; }
+::-webkit-scrollbar-track {  background-color: #999;}
+::-webkit-scrollbar-track-piece { background-color: #ffffff;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+::-webkit-scrollbar-corner { background-color: #999;}
+::-webkit-resizer { background-color: #666;}

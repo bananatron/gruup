@@ -1,1 +1,1 @@
-<b>Versioner</b> is a simple API for version confirmation. 
+<b>GRÜP</b> is a minimalist groupchat app using Firebase & Sinatra.
