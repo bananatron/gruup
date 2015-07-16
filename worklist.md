@@ -5,6 +5,8 @@
 #General
 - Better html/js escapes (currently done with simple replace)
     - Implemnt custom tagging language
+    - Inline images
+    - emojis / stickers
 - Tab/browser notifications
     - Alow user tags (@loller)
     - Show tab alerts for tags and new messages
