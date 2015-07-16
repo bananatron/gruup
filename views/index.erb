@@ -24,7 +24,7 @@
     
     var msg = snap.val();
     createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
-    $("chat-window").animate({ scrollTop: 1000 }, 0);
+    $("chat-window").animate({ scrollTop: 999999 }, 0);
     
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
