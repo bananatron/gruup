@@ -1,1 +1,0 @@
-base_uri = 'https://h4xchat.firebaseio.com'
