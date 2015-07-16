@@ -10,10 +10,10 @@ $fb_users = Firebase::Client.new(base_uri + "/users")
 $hash_key =  $fb_root.get("/key").body.to_s
 $cookie_key =  $fb_root.get("/key").body.to_s
 
-# configure :development do
-#   set :bind, '0.0.0.0'
-#   set :port, 3000
-# end
+configure :development do
+  set :bind, '0.0.0.0'
+  set :port, 3000
+end
 
 
 #TODO

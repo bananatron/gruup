@@ -186,3 +186,22 @@ button:hover {
 ::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
 ::-webkit-scrollbar-corner { background-color: #999;}
 ::-webkit-resizer { background-color: #666;}
+
+/*  Modal Styles for Stickers */
+#dialog {
+  background-color: #666;
+  width : 800px;
+  height : 400px;
+  display : none;
+  z-index: 100;
+  margin: 0 auto;
+}
+
+.stickerImages ul {
+  display: block-inline;
+}
+.stickerImages li {
+  display: block-inline;
+  list-style-type: none;
+}
+

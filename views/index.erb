@@ -9,12 +9,26 @@
 <% if @username %>
 <div class='textmock' contenteditable>
 <!--  <div class="submit_button">Submit</div>-->
+
 </div>
-<div class="submit-button">Submit</div>
+<div class="submit-button">
+  <button class="modal-button">Stickers</button>
+  Submit
+</div>
+
+<div id="dialog">
+  <strong>Choose Your Sticker</strong>
+  <div class="stickerImages">
+    
+  </div>
+</div>
+
 <% end %>
 
 <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- jQuery UI added for dialog box -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
 <script>
 
@@ -123,5 +137,32 @@
   }
 
 
-  
+  //Create eventListner for onclick event of stickers button
+  $('.modal-button').on('click', function(e) {
+    var connectionStr = 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=pugs&jsoncallback=?';
+    var $img = $("<img>");
+    var maxNumOfImages = 10;
+    $.getJSON(connectionStr, function(data) {
+        //Loop through each item of the response
+        data.items.forEach(function(photo) {
+          //Initialize the $img obj to blank <img> tag
+          $img = $("<img>");
+          if(maxNumOfImages === 0) {
+            return;
+          }
+          //Append the img URL to $img obj
+          $img.attr("src", photo.media.m);
+          $li = $("<li>");
+          $li.append($img);
+          $("#dialog .stickerImages").append($li);
+          maxNumOfImages--;
+        });
+      //After images have been appended to dialog box.
+      //Show box
+      $('#dialog').dialog();
+    });
+  });
+
 </script>
+
+
