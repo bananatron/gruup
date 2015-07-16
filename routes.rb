@@ -65,7 +65,7 @@ post '/register' do
   else
   
   @notice = "Register successful, please log in!"
-  @username = params[:username]
+  @username = params[:username].downcase
   @pass_plus = params[:password] + $hash_key
   pkey = Digest::MD5.hexdigest @pass_plus
   time = Time.now.to_s 
@@ -85,7 +85,7 @@ end
 
 post '/login' do
   #redirect based on cases/validation
-  username = params[:username]
+  username = params[:username].downcase
   pass_plus = params[:password] + $hash_key
   local_pass = Digest::MD5.hexdigest pass_plus
   
