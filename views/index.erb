@@ -11,16 +11,16 @@
 <!--  <div class="submit_button">Submit</div>-->
 
 </div>
-<div class="submit-button">
-  <button class="modal-button">Stickers</button>
-  Submit
+<div class="button-container">
+  <button class="stickers-modal-button">Stickers</button>
+  <button class="submit-button">Submit</button>
 </div>
 
 <div id="dialog">
   <strong>Choose Your Sticker</strong>
-  <div class="stickerImages">
+  <ul class="stickerImages">
     
-  </div>
+  </ul>
 </div>
 
 <% end %>
@@ -138,7 +138,7 @@
 
 
   //Create eventListner for onclick event of stickers button
-  $('.modal-button').on('click', function(e) {
+  $('.stickers-modal-button').on('click', function(e) {
     var connectionStr = 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=pugs&jsoncallback=?';
     var $img = $("<img>");
     var maxNumOfImages = 10;
@@ -146,22 +146,24 @@
         //Loop through each item of the response
         data.items.forEach(function(photo) {
           //Initialize the $img obj to blank <img> tag
-          $img = $("<img>");
+          $img = $("<img>").addClass('stickerItem');
           if(maxNumOfImages === 0) {
             return;
           }
           //Append the img URL to $img obj
           $img.attr("src", photo.media.m);
-          $li = $("<li>");
-          $li.append($img);
-          $("#dialog .stickerImages").append($li);
+          $li = $("<li>").addClass('stickerItem');
+
+          $li.append($img)
+          $(".stickerImages").append($li);
           maxNumOfImages--;
-        });
-      //After images have been appended to dialog box.
-      //Show box
-      $('#dialog').dialog();
+        });        
     });
+    $('#dialog').css('display', 'block');
   });
+
+
+
 
 </script>
 

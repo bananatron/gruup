@@ -26,7 +26,7 @@ a:hover {
     position:absolute;
     right:20;
     top: 10;
-    color: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 1.0) !important;
 }
 .sh:hover {
     text-decoration:line-through;
@@ -108,12 +108,28 @@ message .timestamp:hover {
   outline: none;
 }
 
+.button-container {
+  width: 100%;
+}
+
 .submit-button {
   text-transform:uppercase;
   text-align:center;
   padding: 5px;
-  height:1em;
+  height:2em;
   background-color:#1F1F1F;
+  width: 45%;
+  float: right;
+
+}
+.stickers-modal-button {
+  text-transform:uppercase;
+  text-align:center;
+  padding: 5px;
+  height:2em;
+  background-color:#1F1F1F;
+  color: #FFF;
+  width: 45%;
 }
 
 .submit-button-active {
@@ -190,18 +206,19 @@ button:hover {
 /*  Modal Styles for Stickers */
 #dialog {
   background-color: #666;
-  width : 800px;
   height : 400px;
-  display : none;
+  display: none;
   z-index: 100;
+  position: absolute;
+  top: 0px;
   margin: 0 auto;
+  overflow: scroll;
 }
 
-.stickerImages ul {
-  display: block-inline;
-}
+
 .stickerImages li {
-  display: block-inline;
+  padding: 0.2em;
+  display: inline-block;
   list-style-type: none;
 }
 
