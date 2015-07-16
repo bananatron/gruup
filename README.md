@@ -2,9 +2,8 @@
 
 
 #TODO
-- !!escape scripts
+- escape scripts better
 - tag users
-- Case sensitive names
 - Seperate rooms & auth
 - remove hardcode scroll point
 - user customization
