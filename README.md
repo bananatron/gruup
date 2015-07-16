@@ -1,1 +1,1 @@
-<b>GRÜP</b> is a minimalist groupchat app using Firebase & Sinatra.
+<b>GRÜÜP</b> is a minimalist groupchat app using Firebase & Sinatra.
