@@ -27,7 +27,7 @@ a:hover {
     position:absolute;
     right:20;
     top: 10;
-    color: rgba(255, 255, 255, 0.6) !important; /*cory this isn't supposed to be white you fuck */
+    color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .sh:hover {
@@ -76,7 +76,7 @@ message .message {
 message .author {
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: #158969;
+  background-color: #121212;
   min-width: 100px;
   margin: 0px 5px 0 5px;
   transition: margin 0.2s;
@@ -99,8 +99,6 @@ message .timestamp {
 message .timestamp:hover {
   color: rgba(255, 255, 255, 0.8)
 }
-
-
 
 .submit-container {
   display:flex;
@@ -149,6 +147,7 @@ textarea {
 }
 
 
+/* Message animations for xbrowser stuff */
 message {
     -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
        -moz-animation: fadein 1s; /* Firefox < 16 */
@@ -217,6 +216,7 @@ button:hover {
 ::-webkit-scrollbar-corner { background-color: #999;}
 ::-webkit-resizer { background-color: #666;}
 
+
 /*  Modal Styles for Stickers */
 #dialog {
   background-color: #666;
@@ -228,7 +228,6 @@ button:hover {
   margin: 0 auto;
   overflow: scroll;
 }
-
 
 .stickerImages li {
   padding: 0.2em;
@@ -270,9 +269,8 @@ button:hover {
     display: none;
   }
   
-
-
 }
+
 
 /* Portrait */
 @media only screen 
@@ -286,6 +284,7 @@ button:hover {
     }
     
 }
+
 
 /* Landscape */
 @media only screen 
