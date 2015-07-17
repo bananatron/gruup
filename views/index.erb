@@ -38,6 +38,10 @@
 
 <script>
 
+$(document).ready(function() {
+    $(window).resize();
+});
+
   var MESSAGE_LIMIT = 60;
   var chatUsers = new Firebase("https://h4xchat.firebaseio.com/users");
   var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/bros");

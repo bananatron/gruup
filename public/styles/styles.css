@@ -4,7 +4,7 @@ body {
   color: #fff;
   cursor: default;
   padding: 10px;
-  height: 90%;
+  height: 95%;
 }
 
 chat-window {
@@ -258,27 +258,44 @@ button:hover {
   and (min-device-width: 320px) 
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-  
-  body {
-    height: 100%;
-  }
-  
-  .message {
-    font-size: 1.5em;
-  }
+
   
   message .author {
-    font-size: 1em;
-    max-width:60px;
+    font-size: 0.6em;
+    min-width:40px;
+    max-width:40px;
   }
-  
+
   .timestamp {
     display: none;
   }
   
-  
-  /*chat-window {*/
-  /*  height:200px;*/
-  /*}*/
+
+
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    
+    body {
+      height:94%;
+    }
+    
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 650px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    
+    body {
+      height:80%;
+    }
 
 }
