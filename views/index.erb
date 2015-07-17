@@ -7,14 +7,15 @@
 
 
 <% if @username %>
-<div class='textmock' contenteditable>
-<!--  <div class="submit_button">Submit</div>-->
 
+<div class="submit-container">
+  <div class='textmock' contenteditable></div>
+  <!--  <div class="submit_button">Submit</div>-->
+  <div class="submit-button"><div>GO</div></div>
+  <!--<button class="stickers-modal-button">Stickers</button>-->
+  
 </div>
-<div class="button-container">
-  <button class="stickers-modal-button">Stickers</button>
-  <button class="submit-button">Submit</button>
-</div>
+
 
 <div id="dialog">
   <strong>Choose Your Sticker</strong>
@@ -22,6 +23,11 @@
     
   </ul>
 </div>
+
+<% else %>
+
+
+<h2 style="color:rgba(255, 255, 255, 0.5)">Join the conversation by <a href="/login">logging in</a> or <a href="/register">signing up.</a></h2>
 
 <% end %>
 
@@ -32,13 +38,16 @@
 
 <script>
 
- var chatUsers = new Firebase("https://h4xchat.firebaseio.com/users");
- var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/bros");
-  firebaseRef.on('child_added', function(snap) {
+  var MESSAGE_LIMIT = 60;
+  var chatUsers = new Firebase("https://h4xchat.firebaseio.com/users");
+  var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/bros");
+  firebaseRef.limitToLast(MESSAGE_LIMIT).on('child_added', function(child) {
     
-    var msg = snap.val();
-    createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
-    $("chat-window").animate({ scrollTop: 999999 }, 0);
+  
+      var msg = child.val();
+      createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
+      $("chat-window").animate({ scrollTop: 999999 }, 0);
+  
     
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
@@ -79,8 +88,7 @@
   }
   
   
-  var esctags = ['a', 'javascript', 'marquee']
-  
+  var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
   var cleanMessage = function(message){ //TODO make this actually work well
     
     var msg = message;

@@ -4,6 +4,7 @@ body {
   color: #fff;
   cursor: default;
   padding: 10px;
+  height: 100%;
 }
 
 chat-window {
@@ -26,8 +27,9 @@ a:hover {
     position:absolute;
     right:20;
     top: 10;
-    color: rgba(255, 255, 255, 1.0) !important;
+    color: rgba(255, 255, 255, 0.6) !important; /*cory this isn't supposed to be white you fuck */
 }
+
 .sh:hover {
     text-decoration:line-through;
 }
@@ -77,6 +79,7 @@ message .author {
   background-color: #158969;
   min-width: 100px;
   margin: 0px 5px 0 5px;
+  transition: margin 0.2s;
 }
 
 .author:hover {
@@ -97,31 +100,36 @@ message .timestamp:hover {
   color: rgba(255, 255, 255, 0.8)
 }
 
+
+
+.submit-container {
+  display:flex;
+  margin: 5px 0 0 0;
+}
+
 .textmock {
+  flex-grow:8;
   border: 0px solid #0D0D0D;
   cursor: text;
   padding: 10px;
-  margin: 2px 0 0 0;
   background-color: #1A1A1A;
   height: 3em;
   overflow: auto;
   outline: none;
 }
 
-.button-container {
-  width: 100%;
-}
-
 .submit-button {
   text-transform:uppercase;
   text-align:center;
-  padding: 5px;
-  height:2em;
   background-color:#1F1F1F;
-  width: 45%;
-  float: right;
-
+  flex-grow:0.5;
+  min-width:60px;
 }
+
+.submit-button div {
+  margin-top:1.5em;
+}
+
 .stickers-modal-button {
   text-transform:uppercase;
   text-align:center;
@@ -179,6 +187,9 @@ input {
   border: 0px;
   margin-top:5px;
   color:#fff;
+  width: 100%;
+  height: 60px;
+  font-size:2em
 }
 
 button {
@@ -189,6 +200,9 @@ button {
   background-color:#FFE6B2;
   color:#000;
   transition: background-color, 0.5s;
+  width: 50%;
+  height: 60px;
+  font-size: 2em;
 }
 
 button:hover {
@@ -222,3 +236,39 @@ button:hover {
   list-style-type: none;
 }
 
+
+.logo {
+  font-weight:bold;
+  font-size:3em;
+  transition:letter-spacing 1s, margin-left 2s;
+}
+
+.logo:hover {
+  margin-left:10px;
+  letter-spacing:0.1em;
+}
+
+
+
+
+
+/* mobile */
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    
+  .timestamp {
+    display: none;
+  }
+  
+  .author{
+    min-width:60px;
+  }
+  
+  /*chat-window {*/
+  /*  height:200px;*/
+  /*}*/
+
+}
