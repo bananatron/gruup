@@ -38,7 +38,7 @@
 
 <script>
 
-  var MESSAGE_LIMIT = 60;
+  var MESSAGE_LIMIT = 40;
   var chatUsers = new Firebase("https://h4xchat.firebaseio.com/users");
   var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/bros");
   firebaseRef.limitToLast(MESSAGE_LIMIT).on('child_added', function(child) {
