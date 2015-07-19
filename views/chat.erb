@@ -88,8 +88,8 @@
   //Set color for reference later - check async here?
   var uu = new Firebase( usersGlobal + '/' + userName );
   uu.once("value", function(data) {
-    $('#user-color').text(data.val().color);
-    //aa.setAttribute('style', 'background-color:#'+ data.val().color)
+    //$('#user-color').text(data.val().color);
+    aa.setAttribute('style', 'background-color:#'+ data.val().color)
   });
   
   
@@ -273,7 +273,16 @@
     var aa = msg.appendChild(document.createElement("div"));
     aa.setAttribute('class', 'author');
     aa.innerHTML = author;
-    if (author.indexOf('System')== -1) aa.setAttribute('style', 'background-color:#'+ $('#user-color').text());
+    if (author.indexOf('System')== -1) {
+      var uu = new Firebase(usersGlobal + '/' + author);
+      uu.once("value", function(data) {
+        aa.setAttribute('style', 'background-color:#'+ data.val().color)
+      });
+
+    }
+    //aa.setAttribute('style', 'background-color:#'+ $('#user-color').text());
+    
+    
     
     var mm = msg.appendChild(document.createElement("div"));
     mm.setAttribute('class', 'message');

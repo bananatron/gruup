@@ -4,6 +4,7 @@
 - Front page show accessible/public rooms
 - Admin to grant admin access
 - Room creation / deletion
+- Store url in session so you can go to the right place
 
 #General
 - Better html/js escapes (currently done with simple replace)
