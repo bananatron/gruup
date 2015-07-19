@@ -1,6 +1,9 @@
 
 #TODO
 
+- Front page show accessible/public rooms
+- Admin to grant admin access
+- Room creation / deletion
 
 #General
 - Better html/js escapes (currently done with simple replace)
@@ -12,7 +15,7 @@
     - Alow user tags (@loller)
     - Show tab alerts for tags and new messages
 - Fix scrolling functionality (currently hardcoded number)
-
+- Message history
 - Editable last message
 - Let users delete their own messages
 

@@ -24,10 +24,16 @@ a:hover {
 }
 
 
-.user-data {
+.user-data-1 {
     position:absolute;
     right:20;
     top: 10;
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+.user-data-2 {
+    position:absolute;
+    right:20;
+    top: 30;
     color: rgba(255, 255, 255, 0.6) !important;
 }
 
@@ -77,7 +83,7 @@ message .message {
 message .author {
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: #121212;
+
   min-width: 100px;
   margin: 0px 5px 0 5px;
   -webkit-transition: margin 0.2s;
@@ -133,10 +139,16 @@ message .timestamp:hover {
       -ms-flex-positive:0.5;
           flex-grow:0.5;
   min-width:60px;
+  -webkit-transition: background-color, 0.3s;
+  transition: background-color, 0.3s;
 }
 
 .submit-button div {
   margin-top:1.5em;
+}
+
+.submit-button:hover{
+  background-color:#1C1C1C;
 }
 
 .stickers-modal-button {
@@ -198,8 +210,8 @@ button {
   padding: 5px 10px 5px 10px;
   background-color:#FFE6B2;
   color:#000;
-  -webkit-transition: background-color, 0.5s;
-          transition: background-color, 0.5s;
+  -webkit-transition: background-color, 0.3s;
+          transition: background-color, 0.3s;
   width: 50%;
   height: 60px;
   font-size: 2em;
@@ -207,6 +219,31 @@ button {
 
 button:hover {
   background-color:#fff;
+}
+
+.admin-button-container {
+  display:flex;
+  -webkit-box-orient: horizontal;-webkit-box-direction: normal;-webkit-flex-direction: row;-ms-flex-direction: row;flex-direction: row;
+  margin:-10px 0 10px 0;
+}
+
+.admin-button {
+  margin: 0;
+  flex-grow:1;
+  font-size: 1em;
+  font-weight:normal;
+  height: auto;
+  width: auto;
+}
+
+.bg-green {
+   background-color:#5A896F;
+}
+.bg-red {
+  background-color:#963D50;
+}
+.bg-blue {
+  background-color:#86C1EF;
 }
 
 ::-webkit-scrollbar { width: 3px; height: 3px;}
@@ -240,15 +277,50 @@ button:hover {
 .logo {
   font-weight:bold;
   font-size:3em;
+  margin-right:-30px;
   -webkit-transition:letter-spacing 1s, margin-left 2s;
           transition:letter-spacing 1s, margin-left 2s;
 }
+
 
 .logo:hover {
   margin-left:10px;
   letter-spacing:0.1em;
 }
 
+
+.room-name {
+  font-size:0.6em;
+}
+
+.notice {
+  background-color:rgba(255, 255, 255, 0.1);
+
+  padding:10px;
+  margin:10px 0 10px 0;
+}
+
+.notice-close {
+  color: rgba(255, 255, 255, 0.7);
+  float:right;
+  margin-right:10px;
+  padding: 0 5px 0 5px;
+  border:1px solid rgba(255, 255, 255, 0.3);
+}
+
+.notice-close:hover {
+  color: rgba(255, 255, 255, 1);
+  border:1px solid rgba(255, 255, 255, 0.8);
+}
+
+.visibility-container{
+  color:rgba(255, 255, 255, 0.5);
+  margin:10px 0 10px 0;
+}
+
+.visibility-container .user-visible:hover {
+  background-color:rgba(255, 255, 255, 0.2);
+}
 
 
 
@@ -300,3 +372,5 @@ button:hover {
     }
 
 }
+
+

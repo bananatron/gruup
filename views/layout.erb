@@ -1,6 +1,6 @@
 <html>
   
-<link rel="stylesheet" href="styles/styles.css">
+<link rel="stylesheet" href="/styles/styles.css">
 <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,24 +8,50 @@
 <!-- favicon -->
 <link rel="apple-touch-icon" sizes="57x57" href="/images/192.png">
 <link rel="icon" type="image/png" sizes="57x57" href="/images/192.png">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <title>GRÜUP</title>
 <body>
-  <div class="logo">
-    <a style="color:#fff;" href="/">GRUUP</a>
-  </div>
+  <span class="logo">
+    <a style="color:#fff;" href="/">GRUUP</a> 
+  </span> <span class="room-name"><%= @room.upcase if @room %></span>
   
     <% if @username %>
-      <a href="/logout" class="user-data sh"><%= @username %></a>
+      <a href="/logout" class="user-data-1 sh"><%= @username %></a>
+      <!--<a href="#" class="user-data-2">admin</a>-->
       <span style="display:none" id="user-color"><%= @user_color %></span>
     <% else %>
-      <a href="/login" class="user-data">login</a>
+      <a href="/login" class="user-data-1">login</a>
     <% end %>
-
-   <%= @notice if @notice %>
-   <%= yield %>
+    <% if @notice %>
+      <div class="notice">
+        <b>! </b><%= @notice %>
+        <span class="notice-close">x</span>
+      </div>
+    
+    <% end %>
+   
+   <div class="yield-content">
+     <%= yield %>
+   </div>
    
 </body>
+
+
+<script>
+  
+  $( document ).ready(function() {
+    
+    
+    $('.notice-close').click(function(){
+      $('.notice').slideUp("fast", function() { $(this).remove(); } );
+    });
+  
+  
+  });
+  
+</script>
 
 </html>
 
