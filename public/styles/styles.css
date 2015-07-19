@@ -285,6 +285,7 @@ button:hover {
   font-weight:bold;
   font-size:3em;
   margin-right:-30px;
+  letter-spacing:0em;
   -webkit-transition:letter-spacing 1s, margin-left 2s;
           transition:letter-spacing 1s, margin-left 2s;
 }
