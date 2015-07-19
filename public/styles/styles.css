@@ -16,7 +16,8 @@ chat-window {
 a {
     color:#FFE6B2;
     text-decoration: none;
-    transition: color 0.3s;
+    -webkit-transition: color 0.3s;
+            transition: color 0.3s;
 }
 a:hover {
     color:#fff;
@@ -79,7 +80,8 @@ message .author {
   background-color: #121212;
   min-width: 100px;
   margin: 0px 5px 0 5px;
-  transition: margin 0.2s;
+  -webkit-transition: margin 0.2s;
+          transition: margin 0.2s;
 }
 
 .author:hover {
@@ -101,12 +103,18 @@ message .timestamp:hover {
 }
 
 .submit-container {
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:-ms-flexbox;
   display:flex;
   margin: 5px 0 0 0;
 }
 
 .textmock {
-  flex-grow:8;
+  -webkit-box-flex:8;
+  -webkit-flex-grow:8;
+      -ms-flex-positive:8;
+          flex-grow:8;
   border: 0px solid #0D0D0D;
   cursor: text;
   padding: 10px;
@@ -120,7 +128,10 @@ message .timestamp:hover {
   text-transform:uppercase;
   text-align:center;
   background-color:#1F1F1F;
-  flex-grow:0.5;
+  -webkit-box-flex:0.5;
+  -webkit-flex-grow:0.5;
+      -ms-flex-positive:0.5;
+          flex-grow:0.5;
   min-width:60px;
 }
 
@@ -149,35 +160,24 @@ textarea {
 
 /* Message animations for xbrowser stuff */
 message {
-    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
-       -moz-animation: fadein 1s; /* Firefox < 16 */
-        -ms-animation: fadein 1s; /* Internet Explorer */
-         -o-animation: fadein 1s; /* Opera < 12.1 */
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */ /* Firefox < 16 */ /* Internet Explorer */ /* Opera < 12.1 */
             animation: fadein 1s;
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from { opacity: 0; filter: alpha(opacity=0); }
+    to   { opacity: 1; filter: alpha(opacity=100); }
 }
 
 /* Firefox < 16 */
-@-moz-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
 
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from { opacity: 0; filter: alpha(opacity=0); }
+    to   { opacity: 1; filter: alpha(opacity=100); }
 }
 
 /* Internet Explorer */
-@-ms-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
 
 input {
   padding:5px 10px 5px 10px;
@@ -198,7 +198,8 @@ button {
   padding: 5px 10px 5px 10px;
   background-color:#FFE6B2;
   color:#000;
-  transition: background-color, 0.5s;
+  -webkit-transition: background-color, 0.5s;
+          transition: background-color, 0.5s;
   width: 50%;
   height: 60px;
   font-size: 2em;
@@ -239,7 +240,8 @@ button:hover {
 .logo {
   font-weight:bold;
   font-size:3em;
-  transition:letter-spacing 1s, margin-left 2s;
+  -webkit-transition:letter-spacing 1s, margin-left 2s;
+          transition:letter-spacing 1s, margin-left 2s;
 }
 
 .logo:hover {

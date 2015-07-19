@@ -7,6 +7,7 @@
     - Implemnt custom tagging language
     - Inline images
     - emojis / stickers
+    - url shortening
 - Tab/browser notifications
     - Alow user tags (@loller)
     - Show tab alerts for tags and new messages
@@ -28,3 +29,4 @@
 #Low Pri
 - API endpoints for searching
 - connection/disconnection messages + user status
+- Maybe store user-color on cookie or localstorage.
