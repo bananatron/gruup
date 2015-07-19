@@ -19,6 +19,7 @@ a {
     -webkit-transition: color 0.3s;
             transition: color 0.3s;
 }
+
 a:hover {
     color:#fff;
 }
@@ -343,8 +344,16 @@ button:hover {
 }
 
 .inline-image {
+  border: 6px solid #121212;
   max-width: 100%;
   max-height:400px;
+}
+
+.image-link{
+  display:block;
+  margin-bottom:2px;
+  font-size: 0.7em;
+  padding-left: 10px;
 }
 
 

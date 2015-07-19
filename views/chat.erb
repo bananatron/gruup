@@ -63,6 +63,10 @@
 
 <script>
 
+
+
+  
+  
   var userName = $('.user-data').text();
   var MESSAGE_LIMIT = 40;
   var date = new Date();
@@ -113,7 +117,8 @@
       console.log("The read failed on usersChat: " + errorObject.code);
   });
 
-
+  setTimeout(function(){ scrollToBottom() }, 1000);
+  
 
   ////////////////////
   // CLICKY THANGS //
@@ -149,6 +154,16 @@
   ///////////////
   // HELPERS ///
   /////////////
+  
+  function scrollToBottom(){
+    var height_total = 0;
+    
+    $('messages').children().each(function( index ) {
+      height_total += $(this).height();
+    });
+    console.log(height_total);
+    $("chat-window").animate({ scrollTop: height_total + 200 }, 500);
+  }
     
   //Sends message to firebase
   var sendMessage = function(){
@@ -222,11 +237,14 @@
       var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
       
     }
-      
+    
+      scrollToBottom();
       
     
   };
   
+  
+
   
   var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
   var cleanMessage = function(message){ //TODO !! make this actually work well
@@ -249,15 +267,16 @@
   
   
   //Convert links to actual links (http + www)
-  var addLinks = function(text) {
+  var addLinks = function(text, classname) {
       var url1 = /(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g,
       url2 = /(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g;
   
+      if(typeof classname === 'undefined') classname = "";
       var html = $.trim(text);
       if (html) {
           html = html
-              .replace(url1, '$1<a target="_blank"  href="http://$2">$2</a>$3')
-              .replace(url2, '$1<a target="_blank"  href="$2">$2</a>$5');
+              .replace(url1, '$1<a class="' + classname + '" target="_blank"  href="http://$2">$2</a>$3')
+              .replace(url2, '$1<a class="' + classname + '" target="_blank"  href="$2">$2</a>$5');
       }
       return html;
   }
@@ -286,8 +305,8 @@
     if(message.startsWith('{img}')){ //Image post
     
       image_link = message.replace("{img}","");
-      mm.innerHTML = addLinks(image_link);
-      mm.innerHTML += "<br><img class='inline-image' src='" + image_link + "'/>";
+      mm.innerHTML = addLinks(image_link, 'image-link');
+      mm.innerHTML += "<img class='inline-image' src='" + image_link + "'/>";
     } else { //Non image
       mm.innerHTML = message;
     }
@@ -297,7 +316,6 @@
     tt.innerHTML = time;
  
     $(msg).appendTo('messages');
-    $("chat-window").animate({ scrollTop: 999999 }, 0);
     
   };
   
