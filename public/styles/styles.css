@@ -342,6 +342,7 @@ button:hover {
 
 .users-in-room {
   line-height:1.25em;
+  display:none;
 }
 
 .inline-image {
@@ -403,6 +404,10 @@ roomlist h3 {
 
   .timestamp {
     display: none;
+  }
+  
+  .admin-button-container {
+    display:none;
   }
   
 }

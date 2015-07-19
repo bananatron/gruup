@@ -41,7 +41,7 @@
     </div>
     <% end %>
   
-      <i class="fa fa-eye"></i> <span class="users-in-room"></span>
+      <i class="fa fa-eye toggle-userlist"></i> <span class="users-in-room"></span>
       
   <% else %>
   
@@ -152,6 +152,12 @@
   
   $("#admin-help").click(function(){
     $('.textmock').text( "/help");
+  });
+  
+  
+  //Toggle userlist visibility
+  $(".toggle-userlist").click(function(){
+    $('.users-in-room').slideToggle();
   });
   
   
