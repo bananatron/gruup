@@ -218,7 +218,9 @@ button {
 }
 
 button:hover {
-  background-color:#fff;
+  background-color:#0B0B0B;
+  color: #fff;
+
 }
 
 .admin-button-container {
@@ -236,14 +238,18 @@ button:hover {
   width: auto;
 }
 
+.bg-green, .bg-blue, .bg-red {
+  color:#fff;
+}
+
 .bg-green {
-   background-color:#5A896F;
+   background-color:#2D4C3B;
 }
 .bg-red {
-  background-color:#963D50;
+  background-color:#622F3A;
 }
 .bg-blue {
-  background-color:#86C1EF;
+  background-color:#2D3C51;
 }
 
 ::-webkit-scrollbar { width: 3px; height: 3px;}
@@ -318,10 +324,23 @@ button:hover {
   margin:10px 0 10px 0;
 }
 
+.user-visible {
+  padding: 0 2px 0 2px;
+  display:inline-block;
+  margin-right: 10px;
+}
+
 .visibility-container .user-visible:hover {
   background-color:rgba(255, 255, 255, 0.2);
 }
 
+.user-admin:before {
+  content: "*";
+}
+
+.users-in-room {
+  line-height:1.25em;
+}
 
 
 

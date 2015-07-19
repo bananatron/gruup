@@ -19,8 +19,7 @@
   
     <% if @username %>
       <a href="/logout" class="user-data-1 sh"><%= @username %></a>
-      <!--<a href="#" class="user-data-2">admin</a>-->
-      <span style="display:none" id="user-color"><%= @user_color %></span>
+      <a href="#" class="user-data-2">admin</a>
     <% else %>
       <a href="/login" class="user-data-1">login</a>
     <% end %>

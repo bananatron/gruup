@@ -41,10 +41,8 @@
     </div>
     <% end %>
   
-      VISIBLE TO: 
-      <% @chat_users.each do |user, data| %>
-          <span class="user-visible"><%= user %><% if @chat_users[user]["admin"] == true %>*<% end %></span>
-      <% end %>
+      
+      <i class="fa fa-eye"></i> <span class="users-in-room"></span>
       
   <% else %>
   
@@ -78,19 +76,13 @@
   var room_name = $('.room-name').text().toLowerCase();
   var admin = false;
   var usersGlobal = new Firebase("https://h4xchat.firebaseio.com/users");
-  console.log("https://h4xchat.firebaseio.com/chats/"+ room_name + "/users");
   var usersChat = new Firebase("https://h4xchat.firebaseio.com/chats/"+ room_name + "/users");
   var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name.toLowerCase()+ "/messages/" + month_time);
   
-  
   if ($('.admin-button-container').length > 0) admin = true;
   
-  //Set color for reference later - check async here?
-  var uu = new Firebase( usersGlobal + '/' + userName );
-  uu.once("value", function(data) {
-    //$('#user-color').text(data.val().color);
-    aa.setAttribute('style', 'background-color:#'+ data.val().color)
-  });
+  
+  
   
   
   //Pull messages and start listening
@@ -117,6 +109,44 @@
       
 
 
+
+
+
+
+
+
+  usersChat.on("value", function(snapshot) {
+    var ulist = snapshot.val();
+    
+    $('.users-in-room').empty();
+    
+    $.each(ulist, function( username, user_data ) {
+      
+      var user_entry = this.view = document.createElement("span");
+      user_entry.setAttribute('class', 'user-visible');
+      user_entry.innerHTML = username;
+      if (user_data.admin == true) $(user_entry).addClass( 'user-admin');
+      
+      
+      $(user_entry).appendTo('.users-in-room');
+      
+      
+      
+    });
+    
+    
+    
+  
+  }, function (errorObject) {
+    console.log("The read failed on usersChat: " + errorObject.code);
+  });
+
+
+
+
+
+
+  //Admin click handlers
   $("#admin-add-user").click(function(){
     $('.textmock').text( "/add [username]");
   });
@@ -128,6 +158,13 @@
   $("#admin-help").click(function(){
     $('.textmock').text( "/help");
   });
+  
+  
+  
+  
+  
+  
+  
   
 
   
@@ -146,6 +183,8 @@
   //     console.log(snap.key() + ' removed to channel.');
   //     createMessage(snap.key() + " was just removed to the room.", 'sys', getDate(), 'System')
   // });
+  
+  
   
   
   
@@ -281,7 +320,6 @@
 
     }
     //aa.setAttribute('style', 'background-color:#'+ $('#user-color').text());
-    
     
     
     var mm = msg.appendChild(document.createElement("div"));
