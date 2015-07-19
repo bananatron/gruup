@@ -342,6 +342,9 @@ button:hover {
   line-height:1.25em;
 }
 
+.inline-image {
+  max-height:400px;
+}
 
 
 /* mobile */

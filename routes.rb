@@ -213,7 +213,10 @@ error 500 do
   erb :error
 end
 
-
+get '/testcreate' do
+  createRoom("dev", "spenser", false)
+  erb :index
+end
 
 
 ###############$
@@ -241,6 +244,10 @@ def isAdmin?(user, room)
   return $fb_root.get("chats/#{room}/users/#{user}/admin").body
 end
 
+def createRoom(room_name, admin, private=false)
+  $fb_root.set(  "/chats/#{room_name}", :private => private, :created_on => getTime())
+  addUserToRoom(admin, room_name, true)
+end
 
 def addUserToRoom(user, room, admin=false )
   $fb_root.set(  "/chats/#{room}/users/#{user}", :admin => admin, :added_on => getTime() )

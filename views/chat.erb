@@ -41,7 +41,6 @@
     </div>
     <% end %>
   
-      
       <i class="fa fa-eye"></i> <span class="users-in-room"></span>
       
   <% else %>
@@ -232,10 +231,17 @@
   var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
   var cleanMessage = function(message){ //TODO !! make this actually work well
     
+    
+    
     var msg = message;
     msg = msg.replace('<','');
     msg = msg.replace('>','');
     msg = msg.replace('/>','');
+    
+    
+    if ( msg.endsWith('.gif') || msg.endsWith('.jpg') || msg.endsWith('.gifv') || msg.endsWith('.png')){
+      msg = "{img}" + msg;
+    }   
 
     return addLinks(msg);
     
@@ -272,12 +278,19 @@
       });
 
     }
-    //aa.setAttribute('style', 'background-color:#'+ $('#user-color').text());
     
     
     var mm = msg.appendChild(document.createElement("div"));
     mm.setAttribute('class', 'message');
-    mm.innerHTML = message;
+    
+    if(message.startsWith('{img}')){ //Image post
+    
+      image_link = message.replace("{img}","");
+      mm.innerHTML = addLinks(image_link);
+      mm.innerHTML += "<br><img class='inline-image' src='" + image_link + "'/>";
+    } else { //Non image
+      mm.innerHTML = message;
+    }
     
     var tt = msg.appendChild(document.createElement("div"));
     tt.setAttribute('class', 'timestamp');
