@@ -46,7 +46,7 @@
       
   <% else %>
   
-      PUBLIC CHAT
+      <i class="fa fa-eye"></i> PUBLIC CHAT
       
   <% end %>
   
@@ -64,11 +64,6 @@
 
 <script>
 
-  //When you click on username, it tags them inline
-  $('.user-visible').click(function(){
-    $('.textmock').text($('.textmock').text() + '@' + $(this).text().toString().replace("*","") + ' ');
-  });
-
   var userName = $('.user-data').text();
   var MESSAGE_LIMIT = 40;
   var date = new Date();
@@ -82,69 +77,58 @@
   if ($('.admin-button-container').length > 0) admin = true;
   
   
-  
-  
-  
   //Pull messages and start listening
   firebaseRef.limitToLast(MESSAGE_LIMIT).on('child_added', function(child) {
-    
-      var msg = child.val();
-      createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
-      
+  
+    var msg = child.val();
+    createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
     
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
   
+
+  //User visibility live updates below chat text box
+  usersChat.on("value", function(snapshot) {
+    
+      var ulist = snapshot.val();
+      $('.users-in-room').empty();
+      
+      $.each(ulist, function( username, user_data ) {
+        
+        var user_entry = this.view = document.createElement("span");
+        user_entry.setAttribute('class', 'user-visible');
+        user_entry.innerHTML = username;
+        if (user_data.admin == true) $(user_entry).addClass( 'user-admin');
+        
+        $(user_entry).appendTo('.users-in-room');
   
-  $(".submit-button").click(function() {
+      });
+
+      //Attach click handler
+      $('.user-visible').click(function(){
+        $('.textmock').text($('.textmock').text() + '@' + $(this).text().toString().replace("*","") + ' ');
+      });
+  
+  }, function (errorObject) {
+      console.log("The read failed on usersChat: " + errorObject.code);
+  });
+
+
+
+  ////////////////////
+  // CLICKY THANGS //
+  //////////////////
+  
+  //Submit button
+  $(".submit-button").click(function() { 
     sendMessage();
   });
   
+  //Enter key submit
   $(".textmock").keyup(function (e) {
-    if (e.keyCode == 13 && event.shiftKey != true) { //Allows shift - still doesn't put \n
-        sendMessage();
-    }
+    if (e.keyCode == 13 && event.shiftKey != true) sendMessage(); //Allows shift - !! still doesn't put \n
   });
-      
-
-
-
-
-
-
-
-
-  usersChat.on("value", function(snapshot) {
-    var ulist = snapshot.val();
-    
-    $('.users-in-room').empty();
-    
-    $.each(ulist, function( username, user_data ) {
-      
-      var user_entry = this.view = document.createElement("span");
-      user_entry.setAttribute('class', 'user-visible');
-      user_entry.innerHTML = username;
-      if (user_data.admin == true) $(user_entry).addClass( 'user-admin');
-      
-      
-      $(user_entry).appendTo('.users-in-room');
-      
-      
-      
-    });
-    
-    
-    
-  
-  }, function (errorObject) {
-    console.log("The read failed on usersChat: " + errorObject.code);
-  });
-
-
-
-
-
 
   //Admin click handlers
   $("#admin-add-user").click(function(){
@@ -163,121 +147,90 @@
   
   
   
-  
-  
-  
-
-  
-  
-  // //System messages for users added to room
-  // var first = false;
-  // usersChat.limitToLast(1).on("child_added", function(user, prevChildKey) {
-  //   if (first == true){
-  //     console.log(user.key() + ' added to channel.');
-  //     createMessage(user.key() + " was just added to the room.", 'sys', getDate(), 'System')
-  //   }
-  //   first = true;
-  // });
-  
-  // usersChat.on("child_removed", function(snap, prevChildKey) {
-  //     console.log(snap.key() + ' removed to channel.');
-  //     createMessage(snap.key() + " was just removed to the room.", 'sys', getDate(), 'System')
-  // });
-  
-  
-  
-  
-  
   ///////////////
   // HELPERS ///
   /////////////
     
   //Sends message to firebase
   var sendMessage = function(){
+
+    if ($('.textmock').text().trim() == "") return false; //If not blank
+     
+    if ($('.textmock').text().trim().indexOf('/') == 0){ //Slash command prob will abstract this out
     
-
-    if ($('.textmock').text().trim() != "") { //If not blank
-    
-
-      if ($('.textmock').text().trim().indexOf('/') == 0){ //Slash command
+      var cmd_string = $('.textmock').text().trim().replace("/","");
+      var cmd = cmd_string.split(" ")[0];
+      var arg = cmd_string.split(" ")[1];
       
-        var cmd_string = $('.textmock').text().trim().replace("/","");
-        var cmd = cmd_string.split(" ")[0];
-        var arg = cmd_string.split(" ")[1];
+      switch(cmd) {
+        case "help":
+          msg = "Try some of these commands out: ";
+          if (admin == true) {
+            msg += "<br><br>It also looks like you're an admin for this room. You can <b>/add</b> and <b>/remove</b> people from the channel,"
+            msg += " as well as change the channel's privacy settings with <b>/room public</b> or <b>/room private</b> (Private doesn't work yet)."
+          }
+        break;
         
-        switch(cmd) {
-          case "help":
-            msg = "Try some of these commands out: ";
-            if (admin == true) {
-              msg += "<br><br>It also looks like you're an admin for this room. You can <b>/add</b> and <b>/remove</b> people from the channel,"
-              msg += " as well as change the channel's privacy settings with <b>/room public</b> or <b>/room private</b> (Private doesn't work yet)."
-            }
-          break;
-          
-          case "add":
-            $.post( "/admin/add", { user: arg, room: room_name })
-            .done(function( data ) {
-              firebaseRef.push({
-                message: cleanMessage(data),
-                timestamp: getDate(),
-                author: 'System'
-              });
+        case "add":
+          $.post( "/admin/add", { user: arg, room: room_name })
+          .done(function( data ) {
+            firebaseRef.push({
+              message: cleanMessage(data),
+              timestamp: getDate(),
+              author: 'System'
             });
-            msg = "";
-          break;
-          
-          case "remove":
-            $.post( "/admin/remove", { user: arg, room: room_name })
-            .done(function( data ) {
-              firebaseRef.push({
-                message: cleanMessage(data),
-                timestamp: getDate(),
-                author: 'System'
-              });
+          });
+          msg = "";
+        break;
+        
+        case "remove":
+          $.post( "/admin/remove", { user: arg, room: room_name })
+          .done(function( data ) {
+            firebaseRef.push({
+              message: cleanMessage(data),
+              timestamp: getDate(),
+              author: 'System'
             });
-            msg = "";
-          break;
-          
-          default:
-            msg = "No such command.";
-        }
+          });
+          msg = "";
+        break;
         
-        if (arg == undefined && cmd != "help"){
-          msg = "No argument sent with command."
-        } 
-        
-        //createMessage(message, id, time, author)
-        if (msg.trim() != "" && msg != undefined){
-          createMessage(msg, 'sys', getDate(), 'System (Private)')
-        }
-        console.log(msg);
-        $('.textmock').empty();
-      
-      
-      } else { //Non-slash command (normal message)
-      
-
-        firebaseRef.push({
-          message: cleanMessage($('.textmock').text()),
-          timestamp: getDate(),
-          author: $('.user-data-1').text()
-        });
-        
-        $('.textmock').empty();
-        
-        var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
-        
+        default:
+          msg = "No such command.";
       }
       
+      if (arg == undefined && cmd != "help"){
+        msg = "No argument sent with command."
+      } 
       
+      //createMessage(message, id, time, author)
+      if (msg.trim() != "" && msg != undefined){
+        createMessage(msg, 'sys', getDate(), 'System (Private)')
+      }
+      console.log(msg);
+      $('.textmock').empty();
+    
+    
+    } else { //Non-slash command (normal message)
+    
+      firebaseRef.push({
+        message: cleanMessage($('.textmock').text()),
+        timestamp: getDate(),
+        author: $('.user-data-1').text()
+      });
       
+      $('.textmock').empty(); //Empty field
+      var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
       
     }
+      
+      
+    
   };
   
   
   var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
-  var cleanMessage = function(message){ //TODO make this actually work well
+  var cleanMessage = function(message){ //TODO !! make this actually work well
     
     var msg = message;
     msg = msg.replace('<','');
@@ -289,7 +242,7 @@
   };
   
   
-  //http://stackoverflow.com/questions/12318023/find-and-convert-all-strings-starts-with-http-https-and-convert-into-links
+  //Convert links to actual links (http + www)
   var addLinks = function(text) {
       var url1 = /(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g,
       url2 = /(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g;
