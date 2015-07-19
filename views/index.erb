@@ -1,1 +1,59 @@
-<h2>Join the conversation.</h2>
+
+<roomlist>
+    
+    <h3><i class="fa fa-eye"></i> Public Rooms</h3>
+
+    <% @public_rooms.each do |roomname, roomdata| %>
+        <a href="/c/<%= roomname %>">
+        <div class="room-listing">
+        <div class="roomname">
+
+            <%= roomname %>
+            <% if @username && roomdata["users"][@username]["admin"] == true  %>
+                <i class="fa fa-asterisk"></i> 
+            <% end %>
+            
+        </div>
+
+        </div>
+        </a>
+    
+    <% end %>
+
+</roomlist>
+
+<% if @user_rooms.length > 0 && @username %>
+<roomlist>
+    
+    <h3><i class="fa fa-eye-slash"></i> Private Rooms</h3>
+    
+    <% @user_rooms.each do |roomname, roomdata| %>
+        <a href="/c/<%= roomname %>">
+        <div class="room-listing">
+            <div class="roomname">
+            
+                <%= roomname %> (<%= roomdata["users"].count %>)
+                
+                <% if roomdata["users"][@username]["admin"] == true %>
+                    <i class="fa fa-asterisk"></i> 
+                <% end %>
+                
+            </div>
+            <% roomdata["users"].each do |username, user_data| %>
+                <div class="ucolor" style="background-color:<%= @global_users[username]["color"] %>"></div>
+            <% end %>
+            
+            
+        </div>
+        </a>
+        
+    <% end %>
+    
+</roomlist>
+<% end %>
+
+<!--<roomlist>-->
+<!--    <h3><i class="fa fa-question-circle"></i> What is Gruup?</h3>-->
+<!--    <p>Gruup is a lightweight, minimalistic group chat platform, where we don't sell your soul to the devil.</p>-->
+<!--    <p>Whether you're chatting privately with friends, or want to talk to weirdos on the internet, we've got you covered.</p>-->
+<!--</roomlist>-->

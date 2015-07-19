@@ -28,13 +28,41 @@ set :session_secret, $cookie_key
 before do
   @time = getTime()
   @username = session['user'] if session['user']
-  #@username = 'jofuzz'
 end
+
+
+def getPublicRooms()
+  public_rooms = {}
+  $fb_root.get("/chats").body.each do |roomname, roomdata|
+    public_rooms[roomname] = roomdata.tap { |rd| rd.delete("messages") } if roomdata["private"] == false
+  end
+  
+  return public_rooms
+end
+
+
+def getUserRooms(username)
+  user_rooms = {}
+  
+  $fb_root.get("/chats").body.each do |roomname, roomdata| #Return room data minus messages
+    user_rooms[roomname] = roomdata.tap { |rd| rd.delete("messages") } if roomdata["private"] == true && roomdata["users"][username]
+  end
+  
+  return user_rooms
+
+end
+
 
 #Get ROOT
 get '/' do
-  @room_list = "get public rooms from firebase"
+  
+
+  @global_users = $global_users.get("/").body
+  @public_rooms = getPublicRooms()
+  @user_rooms = getUserRooms("spenser")
   erb :index
+
+  
 end
 
 
@@ -214,7 +242,7 @@ error 500 do
 end
 
 get '/testcreate' do
-  createRoom("dev", "spenser", false)
+  createRoom("another", "spenser", false)
   erb :index
 end
 
@@ -225,6 +253,7 @@ end
 
 #Move these somewhere else at some point
 #!! Convert these to use the one firebase object
+
 
 def getUserData(user, data=nil)
   if data
