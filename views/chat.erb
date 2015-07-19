@@ -133,6 +133,13 @@
   $(".textmock").keyup(function (e) {
     if (e.keyCode == 13 && event.shiftKey != true) sendMessage(); //Allows shift - !! still doesn't put \n
   });
+  
+  
+    $( window ).keyup(function (e) { //Space will scroll you down
+    if (e.keyCode == 32 ) scrollToBottom(); 
+  });
+  
+  
 
   //Admin click handlers
   $("#admin-add-user").click(function(){
