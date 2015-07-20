@@ -316,7 +316,7 @@
     var mm = msg.appendChild(document.createElement("div"));
     mm.setAttribute('class', 'message');
     
-    if(message.startsWith('{img}')){ //Image post
+    if(message.indexOf('{img}') != -1){ //Image post
     
       image_link = message.replace("{img}","");
       mm.innerHTML = addLinks(image_link, 'image-link');
