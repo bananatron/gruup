@@ -28,6 +28,7 @@ set :session_secret, $cookie_key
 before do
   @time = getTime()
   @username = session['user'] if session['user']
+  #@username = "jofuzz"
 end
 
 
