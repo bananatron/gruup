@@ -61,13 +61,7 @@ get '/' do
   erb :index
 end
 
-get '/user' do
-  erb :user
-end
 
-get '/user/:username' do
-  erb :user
-end
 
 post '/admin/remove' do
   uu = params[:user].to_s
@@ -146,8 +140,18 @@ get '/c/:room' do
   
 end
 
+#Default user page for self
+get '/u' do
+  erb :user
+end
+
+#Defined username (not yet used)
+# get '/u/:username' do
+#   erb :user
+# end
+
 #Change color
-post '/user/color' do #Change color value for your user - will have user settings later on
+post '/u/color' do #Change color value for your user - will have user settings later on
   if session['user']
     hex = params[:hex]
     $global_users.update("/#{session['user']}", :color => hex) if hex.length == 3 || hex.length == 6
@@ -203,6 +207,7 @@ end
 #POST Register new account
 post '/changepass' do
   
+  upw = Firebase::Client.new($base_uri + "/users/#{@username}")
   @pass_plus = params[:oldpass] + $hash_key
   pkey = Digest::MD5.hexdigest @pass_plus
   
@@ -211,7 +216,7 @@ post '/changepass' do
     @notice = "Passwords don't match"
     erb :user
     
-  elsif $global_users.get("/#{params[:username]}/password").body != pkey
+  elsif upw.get("/password").body != pkey
   
     @notice = "The old password you entered is incorrect."
     erb :user
@@ -220,7 +225,7 @@ post '/changepass' do
     
     @pass_plus = params[:password] + $hash_key
     pkey = Digest::MD5.hexdigest @pass_plus
-    $global_users.set(@username, :password => pkey, :pass_change_on => @time)
+    upw.update( "/", :password => pkey )
     @notice = "Password changed!"
     erb :user
     

@@ -1,7 +1,7 @@
 <h1><%= @username %></h1>
 
 <br/>
-<form name="app_submission" action="/user/color" method="post">
+<form name="app_submission" action="/u/color" method="post">
   <div class="form-group">
     <input type="text" class="form-control" name="hex" placeholder="hex value" value="">
   </div>
@@ -13,7 +13,7 @@
 <h3>Change Password</h3>
 <form name="app_submission" action="/changepass" method="post">
   <div class="form-group">
-    <input type="text" class="form-control" name="oldpass" placeholder="Old Password" value="">
+    <input type="password" class="form-control" name="oldpass" placeholder="Old Password" value="">
   </div>
   <div class="form-group">
     <input type="password" class="form-control" name="password" placeholder="New Password" value="">

@@ -19,7 +19,7 @@
   
     <% if @username %>
       <div class="user-data-1">
-        <a href="/user/<%= @username %>" class="sh"><%= @username %></a> <a href="/logout"><i class="fa fa-sign-out"></i></a>
+        <a href="/u"><%= @username %></a> <a href="/logout"><i class="fa fa-sign-out"></i></a>
       </div>
       
     <% else %>
@@ -27,8 +27,8 @@
     <% end %>
     <% if @notice %>
       <div class="notice">
-        <b>! </b><%= @notice %>
-        <span class="notice-close">x</span>
+        <i class="fa fa-exclamation-circle"></i> <%= @notice %>
+        <span class="notice-close"><i class="fa fa-times"></i></span>
       </div>
     
     <% end %>
