@@ -270,8 +270,8 @@
     msg = msg.replace('>','');
     msg = msg.replace('/>','');
     
-    
-    if ( msg.endsWith('.gif') || msg.endsWith('.jpg') || msg.endsWith('.png')){
+    //!! come back and fix this to get good image captures
+    if ( msg.indexOf('.gif') != -1 || msg.indexOf('.jpg')!= -1 || msg.indexOf('.png') != -1 ){
       msg = "{img}" + msg;
     }   
 
