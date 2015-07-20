@@ -75,7 +75,11 @@ post '/admin/remove' do
   end
   
   begin
-    removeUsersFromRoom(uu, rmm)
+    if isAdmin?(@username, rmm)
+      removeUsersFromRoom(uu, rmm)
+    else 
+      return "You aren't allowed to do that."
+    end
   rescue
     return "Error happened!"
   end
@@ -95,7 +99,11 @@ post '/admin/add' do
   end
   
   begin
+  if isAdmin?(@username, rmm)
     addUserToRoom(uu, rmm)
+  else 
+    return "You aren't allowed to do that!"
+  end
   rescue
     return "Error happened!"
   end
@@ -143,6 +151,7 @@ end
 
 #Default user page for self
 get '/u' do
+  @user_color = getUserData(@username, "color")
   erb :user
 end
 
@@ -157,7 +166,7 @@ post '/u/color' do #Change color value for your user - will have user settings l
     hex = params[:hex]
     $global_users.update("/#{session['user']}", :color => hex) if hex.length == 3 || hex.length == 6
   end
-  redirect to('/user');
+  redirect to('/u');
 end
 
 #Change color
@@ -298,9 +307,9 @@ end
 
 def getUserData(user, data=nil)
   if data
-    return $fb_root.get("users/#{user}/#{data}").body
+    return $fb_root.get("/users/#{user}/#{data}").body
   else 
-    return $fb_root.get("users/#{user}").body
+    return $fb_root.get("/users/#{user}").body
   end
 end
 
