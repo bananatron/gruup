@@ -265,8 +265,6 @@
   var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
   var cleanMessage = function(message){ //TODO !! make this actually work well
     
-    
-    
     var msg = message;
     msg = msg.replace('<','');
     msg = msg.replace('>','');
@@ -332,7 +330,8 @@
     tt.innerHTML = time;
  
     $(msg).appendTo('messages');
-    scrollToBottom();
+    
+    setTimeout(function(){ scrollToBottom() }, 100);
     
   };
   
