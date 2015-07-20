@@ -55,16 +55,19 @@ end
 
 #Get ROOT
 get '/' do
-  
-
   @global_users = $global_users.get("/").body
   @public_rooms = getPublicRooms()
   @user_rooms = getUserRooms("spenser")
   erb :index
-
-  
 end
 
+get '/user' do
+  erb :user
+end
+
+get '/user/:username' do
+  erb :user
+end
 
 post '/admin/remove' do
   uu = params[:user].to_s
@@ -143,6 +146,14 @@ get '/c/:room' do
   
 end
 
+#Change color
+post '/user/color' do #Change color value for your user - will have user settings later on
+  if session['user']
+    hex = params[:hex]
+    $global_users.update("/#{session['user']}", :color => hex) if hex.length == 3 || hex.length == 6
+  end
+  redirect to('/user');
+end
 
 #Change color
 get '/color/:hex' do #Change color value for your user - will have user settings later on
@@ -189,6 +200,35 @@ post '/register' do
 end
 
 
+#POST Register new account
+post '/changepass' do
+  
+  @pass_plus = params[:oldpass] + $hash_key
+  pkey = Digest::MD5.hexdigest @pass_plus
+  
+  if params[:password] != params[:passwordagain] 
+    
+    @notice = "Passwords don't match"
+    erb :user
+    
+  elsif $global_users.get("/#{params[:username]}/password").body != pkey
+  
+    @notice = "The old password you entered is incorrect."
+    erb :user
+    
+  else
+    
+    @pass_plus = params[:password] + $hash_key
+    pkey = Digest::MD5.hexdigest @pass_plus
+    $global_users.set(@username, :password => pkey, :pass_change_on => @time)
+    @notice = "Password changed!"
+    erb :user
+    
+  end
+end
+
+
+
 #GET Login
 get '/login' do
   erb :login
@@ -229,11 +269,6 @@ get '/logout' do
   redirect to('/')
 end
 
-
-#GET Changelog
-get '/changelog' do 
-  erb :changelog
-end
 
 
 #Error 500

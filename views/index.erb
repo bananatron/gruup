@@ -9,7 +9,8 @@
         <div class="roomname">
 
             <%= roomname %>
-            <% if @username && roomdata["users"][@username]["admin"] == true  %>
+
+            <% if @username && roomdata["users"][@username] && roomdata["users"][@username]["admin"] == true  %>
                 <i class="fa fa-asterisk"></i> 
             <% end %>
             
@@ -34,13 +35,13 @@
             
                 <%= roomname %> (<%= roomdata["users"].count %>)
                 
-                <% if roomdata["users"][@username]["admin"] == true %>
+                <% if roomdata["users"][@username] && roomdata["users"][@username]["admin"] == true %>
                     <i class="fa fa-asterisk"></i> 
                 <% end %>
                 
             </div>
             <% roomdata["users"].each do |username, user_data| %>
-                <div class="ucolor" style="background-color:<%= @global_users[username]["color"] %>"></div>
+                <div class="ucolor" style="background-color:#<%= @global_users[username]["color"] %>"></div>
             <% end %>
             
             
