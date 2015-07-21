@@ -1,11 +1,9 @@
 
-
 <chat-window>
   <messages>
   
   </messages>
 </chat-window>
-
 
 <% if @username %>
 
@@ -51,8 +49,10 @@
       
   <% end %>
   
-  
 </div>
+
+
+
 
 
 
@@ -81,7 +81,8 @@
   firebaseRef.limitToLast(MESSAGE_LIMIT).on('child_added', function(child) {
   
     var msg = child.val();
-    createMessage(msg.message, Object.getOwnPropertyNames(msg), msg.timestamp, msg.author );
+    //Object.getOwnPropertyNames(msg)
+    createMessage(msg.message, child.key(), msg.timestamp, msg.author );
     
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
@@ -281,24 +282,43 @@
   };
   
   
-  //Convert links to actual links (http + www)
   var addLinks = function(text, classname) {
-      var url1 = /(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g,
-      url2 = /(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g;
-  
-      if(typeof classname === 'undefined') classname = "";
-      var html = $.trim(text);
-      if (html) {
-          html = html
-              .replace(url1, '$1<a class="' + classname + '" target="_blank"  href="http://$2">$2</a>$3')
-              .replace(url2, '$1<a class="' + classname + '" target="_blank"  href="$2">$2</a>$5');
-      }
-      return html;
+    var msgtext = text;
+    
+    var wwwlinks = text.match(/(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g) || [];
+    var httplinks = text.match(/(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g) || [];
+    
+    var links = wwwlinks.concat(httplinks);
+
+    links.forEach(function(link, ii){
+      ll = link.trim();
+      
+      msgtext = msgtext.replace(ll, "{url}" + ll);
+    });
+    
+    return msgtext;
+    
   }
+  
+  //Convert links to actual links (http + www)
+  // var addLinks = function(text, classname) {
+  //     var url1 = /(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g,
+  //     url2 = /(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g;
+  
+  //     if(typeof classname === 'undefined') classname = "";
+  //     var html = $.trim(text);
+  //     if (html) {
+  //         html = html
+  //             .replace(url1, '$1<a class="' + classname + '" target="_blank"  href="http://$2">$2</a>$3')
+  //             .replace(url2, '$1<a class="' + classname + '" target="_blank"  href="$2">$2</a>$5');
+  //     }
+  //     return html;
+  // }
   
   //Creates message and appends to messages box
   var createMessage = function(message, id, time, author){
     
+    console.log(id);
     var msg = this.view = document.createElement("message");
     msg.setAttribute('id', id);
     
@@ -316,14 +336,7 @@
     
     var mm = msg.appendChild(document.createElement("div"));
     mm.setAttribute('class', 'message');
-    
-    if(message.indexOf('{img}') != -1){ //Image post
-      image_link = message.replace("{img}","");
-      mm.innerHTML = addLinks(image_link, 'image-link');
-      mm.innerHTML += "<img class='inline-image' src='" + image_link + "'/>";
-    } else { //Non image
-      mm.innerHTML = message;
-    }
+    mm.innerHTML = outputLinks(message);
     
     var tt = msg.appendChild(document.createElement("div"));
     tt.setAttribute('class', 'timestamp');
@@ -333,6 +346,52 @@
     
     setTimeout(function(){ scrollToBottom() }, 100);
   };
+  
+  
+  
+  var outputLinks = function(msg){
+    
+    outmessage = msg;
+    
+    if(msg.indexOf('{img}') != -1){ //Image post
+    
+      var words = msg.split(" ");
+      
+      words.forEach(function(word, ii){
+        if (word.indexOf('{img}') != -1){//found image link
+          ww = word;
+          link = word.replace('{img}',''); //naked link
+          img_link = "<a target='_blank' class='image-link' href='" + link + "'>" + link + "</a>";
+          outmessage = img_link + outmessage.replace(ww, "<img class='inline-image' src='" + link + "'></img>");
+        }
+      });
+      return outmessage;
+      
+    } else if (msg.indexOf('{url}') != -1){
+    
+      var words = msg.split(" ");
+      
+      words.forEach(function(word, ii){
+        if (word.indexOf('{url}') != -1){//found image link
+          ww = word;
+          link = word.replace('{url}',''); //naked link
+          
+          if (link.indexOf('www') == 0){
+            outmessage = "<a class='url-link' target='_blank' href='http://" + link + "'>" + link + "</a>";
+          } else {
+            outmessage = "<a class='url-link' target='_blank' href='" + link + "'>" + link + "</a>";
+          }
+        }
+      });
+
+      return outmessage;
+      
+    
+    } else {
+      return msg;
+    }
+    
+  }
   
   
   var getDate = function(){
