@@ -272,10 +272,10 @@
     msg = msg.replace('>','');
     msg = msg.replace('/>','');
     
-    //!! come back and fix this to get good image captures
-    if ( msg.indexOf('.gif') != -1 || msg.indexOf('.jpg')!= -1 || msg.indexOf('.png') != -1 ){
-      msg = "{img}" + msg;
-    }   
+    // //!! come back and fix this to get good image captures
+    // if ( msg.indexOf('.gif') != -1 || msg.indexOf('.jpg')!= -1 || msg.indexOf('.png') != -1 ){
+    //   msg = '{img}' + msg;
+    // }   
 
     return addLinks(msg, 'url-link');
     
@@ -365,6 +365,7 @@
           outmessage = img_link + outmessage.replace(ww, "<img class='inline-image' src='" + link + "'></img>");
         }
       });
+      
       return outmessage;
       
     } else if (msg.indexOf('{url}') != -1){
