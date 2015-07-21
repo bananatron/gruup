@@ -1,7 +1,8 @@
 
 #TODO
 
-- Scroll fix
+- make url links work like image links
+X Scroll fix
 - Admin to grant admin access
 - Room creation / deletion
 - Store url in session so you can go to the right place
@@ -22,8 +23,6 @@
 - Editable last message
 - Let users delete their own messages
 
-
-#bt
 - Backend notification system
 - User customization page (allow color change, etc.)
 - Seperate chats / creation of custom chats

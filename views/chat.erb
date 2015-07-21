@@ -31,8 +31,10 @@
 
 <div class="visibility-container">
   
+   <i class="fa fa-chevron-circle-down scroll-to-bottom"></i> <i class="fa fa-info-circle admin-help"></i>
+  
   <% if @private %>
-    
+
     <% if @admin %>
     <!--<div class="admin-button-container">-->
     <!--  <button class="admin-button bg-green" id="admin-add-user"><i class="fa fa-plus"></i></button>-->
@@ -41,7 +43,7 @@
     <!--</div>-->
     <% end %>
   
-      <i class="fa fa-info-circle"></i> <i class="fa fa-eye toggle-userlist"></i><div class="users-in-room"></div>
+      <i class="fa fa-eye toggle-userlist"></i><div class="users-in-room"></div>
       
   <% else %>
   
@@ -56,26 +58,21 @@
 
 
 
-<script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
-<!-- jQuery UI added for dialog box -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
+<!-- jQuery UI added for dialog box -->
+<!--<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>-->
 
 <script>
 
-
-
-  
-  
   var userName = "<%= @username %>"
-  var MESSAGE_LIMIT = 40;
+  var MESSAGE_LIMIT = 60;
   var date = new Date();
   var month_time = date.getMonth().toString() + date.getYear().toString();
-  var room_name = $('.room-name').text().toLowerCase();
+  var room_name = "<%= @room %>";
   var admin = false;
   var usersGlobal = new Firebase("https://h4xchat.firebaseio.com/users");
   var usersChat = new Firebase("https://h4xchat.firebaseio.com/chats/"+ room_name + "/users");
-  var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name.toLowerCase()+ "/messages/" + month_time);
+  var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name + "/messages/" + month_time);
   
   if ($('.admin-button-container').length > 0) admin = true;
   
@@ -149,7 +146,7 @@
     $('.textmock').text( "/remove [username]");
   });
   
-  $("#admin-help").click(function(){
+  $(".admin-help").click(function(){
     $('.textmock').text( "/help");
   });
   
@@ -159,6 +156,9 @@
     $('.users-in-room').slideToggle();
   });
   
+  $(".scroll-to-bottom").click(function(){
+    scrollToBottom(true);
+  });
   
   
   
@@ -175,9 +175,9 @@
     });
 
     if (animate == true) {
-      $("chat-window").animate({ scrollTop: height_total + 400 });
+      $("chat-window").animate({ scrollTop: height_total + 600 });
     } else { 
-      $("chat-window").scrollTop ( height_total + 400); 
+      $("chat-window").scrollTop ( height_total + 600); 
       
     }
   }
@@ -244,11 +244,14 @@
     
     } else { //Non-slash command (normal message)
     
+      var mmsg = cleanMessage($('.textmock').text());
       firebaseRef.push({
-        message: cleanMessage($('.textmock').text()),
+        message: cleanMessage( mmsg),
         timestamp: getDate(),
         author: userName
       });
+      
+      notifyTags(mmsg);
       
       $('.textmock').empty(); //Empty field
       //var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
@@ -303,12 +306,12 @@
     var aa = msg.appendChild(document.createElement("div"));
     aa.setAttribute('class', 'author');
     aa.innerHTML = author;
+    
     if (author.indexOf('System')== -1) {
       var uu = new Firebase(usersGlobal + '/' + author);
       uu.once("value", function(data) {
         aa.setAttribute('style', 'background-color:#'+ data.val().color)
       });
-
     }
     
     
@@ -316,7 +319,6 @@
     mm.setAttribute('class', 'message');
     
     if(message.indexOf('{img}') != -1){ //Image post
-    
       image_link = message.replace("{img}","");
       mm.innerHTML = addLinks(image_link, 'image-link');
       mm.innerHTML += "<img class='inline-image' src='" + image_link + "'/>";
@@ -340,7 +342,22 @@
     return dt.getMonth() + '/' + dt.getDay() + '/' + dt.getFullYear() + ' ' + dt.getHours() + ':' + dt.getMinutes();
   }
 
+  var notifyTags = function(msg){
+    var usrs = msg.match(/(?:^|\W)@(\w+)(?!\w)/g);
 
+    usrs.forEach( function( username, ii ){
+        var stripped_msg = msg.replace(username,'').trim();
+        var userNotices = new Firebase("https://h4xchat.firebaseio.com/users/" + username.replace('@','') + "/notices/");
+        
+        userNotices.push({
+          room: room_name,
+          message: stripped_msg,
+          time: date
+        });
+      
+    });
+    
+  }
   // //Create eventListner for onclick event of stickers button
   // $('.stickers-modal-button').on('click', function(e) {
   //   var connectionStr = 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=pugs&jsoncallback=?';

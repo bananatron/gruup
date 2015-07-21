@@ -63,6 +63,10 @@ get '/' do
 end
 
 
+# get '/addnote' do
+#   puts @username
+#   $global_users.push("#{@username}/notices", :room => "bros", :created_on => @time, :message => "test message")
+# end
 
 post '/admin/remove' do
   uu = params[:user].to_s

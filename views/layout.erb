@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="57x57" href="/images/192.png">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
+<script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
 <title>GRÜUP</title>
 <body>
   
@@ -26,21 +26,20 @@
     <% else %>
       <a href="/login" class="user-data-1">login</a>
     <% end %>
-    <% #if @notice %>
     
-    <!--<notices>-->
-    <!--  <div class="notice">-->
-    <!--    <i class="fa fa-comment"></i> dev <%= @notice %> <span class="notice-close"><i class="fa fa-times"></i></span>-->
-    <!--  </div>-->
-    <!--  <div class="notice">-->
-    <!--    <i class="fa fa-exclamation-circle"></i> bros <%= @notice %><span class="notice-close"><i class="fa fa-times"></i></span>-->
-    <!--  </div>-->
-    <!--  <div class="notice">-->
-    <!--    <i class="fa fa-exclamation-circle"></i> general <%= @notice %><span class="notice-close"><i class="fa fa-times"></i></span>-->
-    <!--  </div>-->
-    <!--</notices>-->
     
-    <% #end %>
+    
+    
+    <notices id="notices">
+      <% if @notice %>
+        <div class="notice">
+          <i class="fa fa-exclamation-circle"></i> &nbsp;<%= @notice %>
+          <span class="static-notice-close"><i class="fa fa-times"></i></span>
+        </div>
+      <% end %>
+      
+    </notices>
+    
    
    <div class="yield-content">
      <%= yield %>
@@ -52,15 +51,47 @@
 
 
 <script>
-  
-  $( document ).ready(function() {
+
+  var userNotes = new Firebase("https://h4xchat.firebaseio.com/users/" + '<%= @username %>' + "/notices/" );
+  userNotes.on('child_added', function(note) {
+
+    var nn = this.view = document.createElement('div');
+    nn.setAttribute('class', 'notice');
+    nn.setAttribute('id', note.key());
+    nn.innerHTML = "<a class='notice-link-out' href='/c/" + note.val().room + "'><i class='fa fa-comment'></i> <b>" + note.val().room + "</b> <span class='notice-message'>" + note.val().message + "</span></a>";
     
-    $('.notice-close').click(function(){
+    n_close = nn.appendChild(document.createElement('span'));
+    n_close.setAttribute('class', 'notice-close');
+    n_close.innerHTML = "<i class='fa fa-times'></i>";
+    
+    $(nn).appendTo('notices');
+    
+    $( ".notice-close").unbind( "click" );
+    
+    $('.notice-close, .notice-link-out').click(function(){
+      
+      var noticeId = $(this).parent().attr('id');
+      
       $(this).parent().slideUp("fast", function() { $(this).remove(); } );
+      
+      var noticeRemove = new Firebase("https://h4xchat.firebaseio.com/users/" + "<%= @username %>" + "/notices/" + noticeId );
+      noticeRemove.remove();
+      
+      
     });
   
-  
+    
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
   });
+  
+  
+  $('.static-notice-close').click(function(){
+    $(this).parent().slideUp("fast", function() { $(this).remove(); } );
+  });
+  
+  
+
   
 </script>
 
