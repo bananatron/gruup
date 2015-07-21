@@ -74,7 +74,7 @@
   var usersChat = new Firebase("https://h4xchat.firebaseio.com/chats/"+ room_name + "/users");
   var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name + "/messages/" + month_time);
   
-  if ($('.admin-button-container').length > 0) admin = true;
+  if ($('.admin-button-container').length > 0) admin = true; //Redo this
   
   
   //Pull messages and start listening
@@ -121,6 +121,7 @@
   // CLICKY THANGS //
   //////////////////
   
+
   //Submit button
   $(".submit-button").click(function() { 
     sendMessage();
@@ -135,6 +136,7 @@
   $( window ).keyup(function (e) { //Space will scroll you down
     if (e.keyCode == 32 ) scrollToBottom(true); 
   });
+  
   
   
 
@@ -168,19 +170,22 @@
   // HELPERS ///
   /////////////
   
+  // var objDiv = document.getElementById("chat-window");
+  // objDiv.scrollTop = objDiv.scrollHeight;
+  
   function scrollToBottom( animate ){
     var height_total = 0;
-    
-    $('messages').children().each(function( index ) {
-      height_total += $(this).height();
-    });
+    $("chat-window").scrollTop($("chat-window")[0].scrollHeight);    
+    // $('messages').children().each(function( index ) {
+    //   height_total += $(this).height();
+    // });
 
-    if (animate == true) {
-      $("chat-window").animate({ scrollTop: height_total + 600 });
-    } else { 
-      $("chat-window").scrollTop ( height_total + 600); 
+    // if (animate == true) {
+    //   $("chat-window").animate({ scrollTop: height_total + 600 });
+    // } else { 
+    //   $("chat-window").scrollTop ( height_total + 600); 
       
-    }
+    // }
   }
     
   //Sends message to firebase
