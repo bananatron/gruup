@@ -57,10 +57,17 @@ message {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  background-color: #1A1A1A;
+
   padding: 5px 0 5px 0;
   margin: 2px 5px 2px 0; /* to account for scrollbar */
 }
+
+message:hover {
+    background-color: #1A1A1A;
+}
+
+
+
 
 message > div {
   padding: 5px 10px 5px 10px;
@@ -100,6 +107,7 @@ message .timestamp {
   color: rgba(255, 255, 255, 0.1);
   min-width:100px;
   text-align:right;
+  font-size:0.8em;
 }
 
 message .timestamp:hover {
@@ -361,7 +369,7 @@ h3 {
 }
 
 .room-listing {
-  background-color:rgba(255, 255, 255, 0.2);
+  background-color: #1A1A1A;
   display:-webkit-box;
   display:-webkit-flex;
   display:-ms-flexbox;
@@ -431,6 +439,7 @@ notices .notice:nth-child(1) {
   flex-grow:2;
   margin-right:15px;
 }
+
 
 
 /* mobile */

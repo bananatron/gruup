@@ -174,18 +174,14 @@
   // objDiv.scrollTop = objDiv.scrollHeight;
   
   function scrollToBottom( animate ){
-    var height_total = 0;
     $("chat-window").scrollTop($("chat-window")[0].scrollHeight);    
-    // $('messages').children().each(function( index ) {
-    //   height_total += $(this).height();
-    // });
-
-    // if (animate == true) {
-    //   $("chat-window").animate({ scrollTop: height_total + 600 });
-    // } else { 
-    //   $("chat-window").scrollTop ( height_total + 600); 
-      
+    
+    // if (animate == false ){
+    //   $("chat-window").scrollTop($("chat-window")[0].scrollHeight);    
+    // } else {
+    //   $("chat-window").animate({ scrollTop: $("chat-window")[0].scrollHeight });
     // }
+    
   }
     
   //Sends message to firebase
