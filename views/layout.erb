@@ -13,6 +13,7 @@
 
 <title>GRÜUP</title>
 <body>
+  
   <span class="logo">
     <a style="color:#fff;" href="/">GRUUP</a> 
   </span> <span class="room-name"><%= @room.upcase if @room %></span>
@@ -25,18 +26,28 @@
     <% else %>
       <a href="/login" class="user-data-1">login</a>
     <% end %>
-    <% if @notice %>
-      <div class="notice">
-        <i class="fa fa-exclamation-circle"></i> <%= @notice %>
-        <span class="notice-close"><i class="fa fa-times"></i></span>
-      </div>
+    <% #if @notice %>
     
-    <% end %>
+    <!--<notices>-->
+    <!--  <div class="notice">-->
+    <!--    <i class="fa fa-comment"></i> dev <%= @notice %> <span class="notice-close"><i class="fa fa-times"></i></span>-->
+    <!--  </div>-->
+    <!--  <div class="notice">-->
+    <!--    <i class="fa fa-exclamation-circle"></i> bros <%= @notice %><span class="notice-close"><i class="fa fa-times"></i></span>-->
+    <!--  </div>-->
+    <!--  <div class="notice">-->
+    <!--    <i class="fa fa-exclamation-circle"></i> general <%= @notice %><span class="notice-close"><i class="fa fa-times"></i></span>-->
+    <!--  </div>-->
+    <!--</notices>-->
+    
+    <% #end %>
    
    <div class="yield-content">
      <%= yield %>
    </div>
    
+
+    
 </body>
 
 
@@ -44,9 +55,8 @@
   
   $( document ).ready(function() {
     
-    
     $('.notice-close').click(function(){
-      $('.notice').slideUp("fast", function() { $(this).remove(); } );
+      $(this).parent().slideUp("fast", function() { $(this).remove(); } );
     });
   
   

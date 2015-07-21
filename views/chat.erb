@@ -34,14 +34,14 @@
   <% if @private %>
     
     <% if @admin %>
-    <div class="admin-button-container">
-      <button class="admin-button bg-green" id="admin-add-user"><i class="fa fa-plus"></i></button>
-      <button class="admin-button bg-red" id="admin-remove-user"><i class="fa fa-times"></i></button>
-      <button class="admin-button bg-blue" id="admin-help"><i class="fa fa-question"></i></button>
-    </div>
+    <!--<div class="admin-button-container">-->
+    <!--  <button class="admin-button bg-green" id="admin-add-user"><i class="fa fa-plus"></i></button>-->
+    <!--  <button class="admin-button bg-red" id="admin-remove-user"><i class="fa fa-times"></i></button>-->
+    <!--  <button class="admin-button bg-blue" id="admin-help"><i class="fa fa-question"></i></button>-->
+    <!--</div>-->
     <% end %>
   
-      <i class="fa fa-eye toggle-userlist"></i> <span class="users-in-room"></span>
+      <i class="fa fa-info-circle"></i> <i class="fa fa-eye toggle-userlist"></i><div class="users-in-room"></div>
       
   <% else %>
   
@@ -274,7 +274,7 @@
       msg = "{img}" + msg;
     }   
 
-    return addLinks(msg);
+    return addLinks(msg, 'url-link');
     
   };
   

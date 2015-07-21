@@ -3,8 +3,7 @@ body {
   background: #121212;
   color: #fff;
   cursor: default;
-  padding: 10px;
-  height: 95%;
+  margin:10px;
 }
 
 chat-window {
@@ -18,6 +17,7 @@ a {
     text-decoration: none;
     -webkit-transition: color 0.3s;
             transition: color 0.3s;
+            
 }
 
 a:hover {
@@ -303,23 +303,7 @@ button:hover {
   font-size:0.6em;
 }
 
-.notice {
-  background-color:rgba(255, 255, 255, 0.1);
 
-  padding:10px;
-  margin:10px 0 10px 0;
-}
-
-.notice-close {
-  color: rgba(255, 255, 255, 0.7);
-  float:right;
-  margin-right:10px;
-  padding: 0 5px 0 5px;
-}
-
-.notice-close:hover {
-  color: rgba(255, 255, 255, 1);
-}
 
 .visibility-container{
   color:rgba(255, 255, 255, 0.5);
@@ -355,7 +339,16 @@ button:hover {
   display:block;
   margin-bottom:2px;
   font-size: 0.7em;
-  padding-left: 10px;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis
+}
+
+.url-link {
+  display:block;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis
 }
 
 roomlist {
@@ -422,6 +415,39 @@ h3 {
   
 }
 
+notices {
+  display:flex;
+  width:100%;
+  margin-bottom:10px;
+}
+
+notices .notice {
+  flex-grow:1;
+  margin-left:10px;
+}
+
+notices .notice:nth-child(1) {
+  flex-grow:1;
+  margin-left:0px !important;
+}
+
+.notice {
+  background-color:rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin: 0;
+  font-size:0.8em;
+}
+
+.notice-close {
+  color: rgba(255, 255, 255, 0.7);
+  float:right;
+  margin-right:10px;
+  padding: 0 5px 0 5px;
+}
+
+.notice-close:hover {
+  color: rgba(255, 255, 255, 1);
+}
 
 /* Portrait */
 @media only screen 
@@ -431,7 +457,7 @@ h3 {
   and (orientation: portrait) {
     
     body {
-      height:94%;
+      height:92%;
     }
     
 }
