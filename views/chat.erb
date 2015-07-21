@@ -238,7 +238,6 @@
       if (msg.trim() != "" && msg != undefined){
         createMessage(msg, 'sys', getDate(), 'System (Private)')
       }
-      console.log(msg);
       $('.textmock').empty();
     
     
@@ -344,7 +343,7 @@
 
   var notifyTags = function(msg){
     var usrs = msg.match(/(?:^|\W)@(\w+)(?!\w)/g);
-
+    if (usrs ){
     usrs.forEach( function( username, ii ){
         var stripped_msg = msg.replace(username,'').trim();
         var userNotices = new Firebase("https://h4xchat.firebaseio.com/users/" + username.replace('@','') + "/notices/");
@@ -356,7 +355,7 @@
         });
       
     });
-    
+    }
   }
   // //Create eventListner for onclick event of stickers button
   // $('.stickers-modal-button').on('click', function(e) {
