@@ -3,6 +3,8 @@ require 'firebase'
 require 'json'
 require 'digest'
 
+require_relative 'helpers'
+
 $base_uri = 'https://h4xchat.firebaseio.com'
 $fb_root = Firebase::Client.new($base_uri)
 $global_users = Firebase::Client.new($base_uri + "/users")
@@ -14,9 +16,6 @@ $cookie_key =  $fb_root.get("/key").body.to_s
 #   set :port, 3000
 # end
 
-
-#TODO
-#Move notices to fb so we can listen for them instead
 
 enable :sessions
 set :session_secret, $cookie_key
@@ -32,27 +31,6 @@ before do
 end
 
 
-def getPublicRooms()
-  public_rooms = {}
-  $fb_root.get("/chats").body.each do |roomname, roomdata|
-    public_rooms[roomname] = roomdata.tap { |rd| rd.delete("messages") } if roomdata["private"] == false
-  end
-  
-  return public_rooms
-end
-
-
-def getUserRooms(username)
-  user_rooms = {}
-  
-  $fb_root.get("/chats").body.each do |roomname, roomdata| #Return room data minus messages
-    user_rooms[roomname] = roomdata.tap { |rd| rd.delete("messages") } if roomdata["private"] == true && roomdata["users"][username]
-  end
-  
-  return user_rooms
-
-end
-
 
 #Get ROOT
 get '/' do
@@ -63,58 +41,6 @@ get '/' do
 end
 
 
-# get '/addnote' do
-#   puts @username
-#   $global_users.push("#{@username}/notices", :room => "bros", :created_on => @time, :message => "test message")
-# end
-
-post '/admin/remove' do
-  uu = params[:user].to_s
-  rmm = params[:room].to_s
-  
-  if !getUserData(uu)
-    return "There's no user by the name of #{uu} to remove."
-  elsif !getUsersInRoom(rmm)[uu]
-    return "That user is not in the room."
-  end
-  
-  begin
-    if isAdmin?(@username, rmm)
-      removeUsersFromRoom(uu, rmm)
-    else 
-      return "You aren't allowed to do that."
-    end
-  rescue
-    return "Error happened!"
-  end
-  
-  return "#{uu} removed from #{rmm}!"
-  
-end
-
-post '/admin/add' do
-  uu = params[:user].to_s
-  rmm = params[:room].to_s
-  
-  if !getUserData(uu)
-    return "There's no user by the name of #{uu} to add."
-  elsif getUsersInRoom(rmm)[uu]
-    return "That user is already in the room."
-  end
-  
-  begin
-  if isAdmin?(@username, rmm)
-    addUserToRoom(uu, rmm)
-  else 
-    return "You aren't allowed to do that!"
-  end
-  rescue
-    return "Error happened!"
-  end
-  
-  return "#{uu} added to #{rmm}!"
-  
-end
 
 #GET Room by name
 get '/c/:room' do
@@ -122,7 +48,7 @@ get '/c/:room' do
   @user_color = getUserData(@username, "color")
   sendView = :noauth
   
-  #begin
+  begin
     
     @chat_users = getUsersInRoom(@room)
     @private = roomPrivate?(@room) 
@@ -147,11 +73,12 @@ get '/c/:room' do
     
     erb sendView
   
-  #rescue 
-  #  halt 500
-  #end
+  rescue 
+    halt 500
+  end
   
 end
+
 
 #Default user page for self
 get '/u' do
@@ -159,19 +86,12 @@ get '/u' do
   erb :user
 end
 
+
 #Defined username (not yet used)
 # get '/u/:username' do
 #   erb :user
 # end
 
-#Change color
-post '/u/color' do #Change color value for your user - will have user settings later on
-  if session['user']
-    hex = params[:hex]
-    $global_users.update("/#{session['user']}", :color => hex) if hex.length == 3 || hex.length == 6
-  end
-  redirect to('/u');
-end
 
 #Change color
 get '/color/:hex' do #Change color value for your user - will have user settings later on
@@ -218,7 +138,7 @@ post '/register' do
 end
 
 
-#POST Register new account
+#POST Change password
 post '/changepass' do
   
   upw = Firebase::Client.new($base_uri + "/users/#{@username}")
@@ -254,7 +174,7 @@ get '/login' do
 end
 
 
-#Post login
+#POST login
 post '/login' do
   #redirect based on cases/validation
   username = params[:username].downcase
@@ -279,7 +199,6 @@ post '/login' do
 end
 
 
-
 #GET Logout
 get '/logout' do 
   session.clear  
@@ -289,78 +208,64 @@ get '/logout' do
 end
 
 
+#POST Admin remove from room (AJAX)
+post '/admin/remove' do
+  uu = params[:user].to_s
+  rmm = params[:room].to_s
+  
+  if !getUserData(uu)
+    return "There's no user by the name of #{uu} to remove."
+  elsif !getUsersInRoom(rmm)[uu]
+    return "That user is not in the room."
+  end
+  
+  begin
+    if isAdmin?(@username, rmm)
+      removeUsersFromRoom(uu, rmm)
+    else 
+      return "You aren't allowed to do that."
+    end
+  rescue
+    return "Error happened!"
+  end
+  
+  return "#{uu} removed from #{rmm}!"
+end
+
+
+#POST Admin add to room (AJAX)
+post '/admin/add' do
+  uu = params[:user].to_s
+  rmm = params[:room].to_s
+  
+  if !getUserData(uu)
+    return "There's no user by the name of #{uu} to add."
+  elsif getUsersInRoom(rmm)[uu]
+    return "That user is already in the room."
+  end
+  
+  begin
+  if isAdmin?(@username, rmm)
+    addUserToRoom(uu, rmm)
+  else 
+    return "You aren't allowed to do that!"
+  end
+  rescue
+    return "Error happened!"
+  end
+  
+  return "#{uu} added to #{rmm}!"
+end
+
 
 #Error 500
 error 500 do
   erb :error
 end
 
-get '/testcreate' do
-  createRoom("another", "spenser", false)
-  erb :index
-end
 
+# get '/testcreate' do
+#   createRoom("another", "spenser", false)
+#   erb :index
+# end
 
-###############$
-## HELPERS  ##$ 
-#############$
-
-#Move these somewhere else at some point
-#!! Convert these to use the one firebase object
-
-
-def getUserData(user, data=nil)
-  if data
-    return $fb_root.get("/users/#{user}/#{data}").body
-  else 
-    return $fb_root.get("/users/#{user}").body
-  end
-end
-
-
-def roomPrivate?(room)
-  $fb_root.get("/chats/#{room}/private").body
-end
-
-
-def isAdmin?(user, room)
-  return $fb_root.get("chats/#{room}/users/#{user}/admin").body
-end
-
-def createRoom(room_name, admin, private=false)
-  $fb_root.set(  "/chats/#{room_name}", :private => private, :created_on => getTime())
-  addUserToRoom(admin, room_name, true)
-end
-
-def addUserToRoom(user, room, admin=false )
-  $fb_root.set(  "/chats/#{room}/users/#{user}", :admin => admin, :added_on => getTime() )
-end
-
-def removeUsersFromRoom(user, room, message=nil )
-  $fb_root.delete(  "/chats/#{room}/users/#{user}" )
-end
-
-
-def getUsersInRoom(room) 
-  user_list = {}
-  cc = Firebase::Client.new($base_uri + '/chats/' + room +  "/users")
-  
-  cc.get('/').body.each do |user, user_data|
-    user_list[user] = user_data
-  end
-  
-  return user_list
-  
-end
-
-
-def getTime() #Rethink time formatting to make consistent with js?
-  Time.now.to_s 
-end
-
-
-
-
-#################$
-## API ROUTES ##$
-###############$
