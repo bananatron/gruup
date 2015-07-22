@@ -60,6 +60,7 @@ message {
 
   padding: 5px 0 5px 0;
   margin: 2px 5px 2px 0; /* to account for scrollbar */
+  word-wrap: break-word;
 }
 
 message:hover {
@@ -352,12 +353,12 @@ button:hover {
   text-overflow:ellipsis
 }
 
-.url-link {
-  display:block;
-  width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis
-}
+/*.url-link {*/
+/*  display:block;*/
+/*  width:100%;*/
+/*  overflow:hidden;*/
+/*  text-overflow:ellipsis*/
+/*}*/
 
 roomlist {
   display:block;

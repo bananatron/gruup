@@ -5,6 +5,7 @@
 - !!Scroll fix
 - tab notifications
 
+- Hex update on keyup
 - Admin to grant admin access
 - Room creation / deletion
 - Store url in session so you can go to the right place

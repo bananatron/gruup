@@ -188,7 +188,7 @@
   var sendMessage = function(){
 
     if ($('.textmock').text().trim() == "") return false; //If not blank
-     
+    
     if ($('.textmock').text().trim().indexOf('/') == 0){ //Slash command prob will abstract this out
     
       var cmd_string = $('.textmock').text().trim().replace("/","");
@@ -278,26 +278,41 @@
     //   msg = '{img}' + msg;
     // }   
 
-    return addLinks(msg, 'url-link');
+    return addLinks(msg);
     
   };
   
+  var _endsWith = function(og, check){ //Because safari doesn't use ES6 yet :'(
+    if (og.indexOf(check) == og.length - check.length) return true;
+  }
   
-  var addLinks = function(text, classname) {
-    var msgtext = text;
+  var isImgLink = function(word){
     
-    var wwwlinks = text.match(/(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g) || [];
-    var httplinks = text.match(/(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g) || [];
+    if (_endsWith(word, '.jpg') || _endsWith(word, '.gif') || _endsWith(word, '.png') || _endsWith(word, '.bmp')) return true;
     
-    var links = wwwlinks.concat(httplinks);
-
-    links.forEach(function(link, ii){
-      ll = link.trim();
+  }
+  
+  var addLinks = function(text) {
+    console.log(text);
+    //var msgtext = text;
+    var words = text.replace(/^\s+|\s+$/g,'').split(/\s+/);
+    console.log(words);
+    words.forEach(function(word, ii){
       
-      msgtext = msgtext.replace(ll, "{url}" + ll);
+      if (word.match(/(^|&lt;|\s)(www\..+?\..+?)(\s|&gt;|$)/g)){ //www link
+        if (isImgLink(word)){
+          words[ii] = "{img}http://" + word.trim();
+        } else { words[ii] = "{url}http://" + word.trim(); }
+        
+      } else if (word.match(/(^|&lt;|\s)(((https?|ftp):\/\/|mailto:).+?)(\s|&gt;|$)/g)){ //http link
+        if (isImgLink(word)){
+          words[ii] = "{img}" + word.trim();}
+        else { words[ii] = "{url}" + word.trim();  }
+      }
     });
     
-    return msgtext;
+    return words.join(' ');
+    
     
   }
   
@@ -319,7 +334,6 @@
   //Creates message and appends to messages box
   var createMessage = function(message, id, time, author){
     
-    console.log(id);
     var msg = this.view = document.createElement("message");
     msg.setAttribute('id', id);
     
@@ -327,17 +341,16 @@
     aa.setAttribute('class', 'author');
     aa.innerHTML = author;
     
-    if (author.indexOf('System')== -1) {
+    if (author.indexOf('System')== -1) { //System messages
       var uu = new Firebase(usersGlobal + '/' + author);
       uu.once("value", function(data) {
         aa.setAttribute('style', 'background-color:#'+ data.val().color)
       });
     }
     
-    
     var mm = msg.appendChild(document.createElement("div"));
     mm.setAttribute('class', 'message');
-    mm.innerHTML = outputLinks(message);
+    mm.innerHTML = outputLinks(message).toString();
     
     var tt = msg.appendChild(document.createElement("div"));
     tt.setAttribute('class', 'timestamp');
@@ -351,47 +364,47 @@
   
   
   var outputLinks = function(msg){
-    
-    outmessage = msg;
+    var outmessage = msg;  
+    var words = msg.split(" ");
     
     if(msg.indexOf('{img}') != -1){ //Image post
     
-      var words = msg.split(" ");
-      
       words.forEach(function(word, ii){
-        if (word.indexOf('{img}') != -1){//found image link
-          ww = word;
-          link = word.replace('{img}',''); //naked link
-          img_link = "<a target='_blank' class='image-link' href='" + link + "'>" + link + "</a>";
-          outmessage = img_link + outmessage.replace(ww, "<img class='inline-image' src='" + link + "'></img>");
+        if (word.indexOf('{img}') != -1){ //word has image link
+        
+          var nlink = word.replace('{img}',''); //naked link
+          img_out = "<a target='_blank' class='image-link' href='" + nlink + "'>" + nlink + "</a>";
+          img_out += "<img target='_blank' class='inline-image' src='" + nlink + "'/><br/>"
+          //var outmessage = img_link + outmessage.replace(ww, "<img class='inline-image' src='" + link + "'></img>");
+          
+          words[ii] = img_out;
+          outmessage = words.join(' ');
         }
       });
       
-      return outmessage;
       
-    } else if (msg.indexOf('{url}') != -1){
-    
-      var words = msg.split(" ");
+    } 
+    if (msg.indexOf('{url}') != -1){
       
       words.forEach(function(word, ii){
-        if (word.indexOf('{url}') != -1){//found image link
-          ww = word;
-          link = word.replace('{url}',''); //naked link
+        if (word.indexOf('{url}') != -1){ //word has url link
           
-          if (link.indexOf('www') == 0){
-            outmessage = "<a class='url-link' target='_blank' href='http://" + link + "'>" + link + "</a>";
+          nlink = word.replace('{url}',''); //naked link
+          
+          if (nlink.indexOf('www') == 0){
+            url_out = "<a class='url-link' target='_blank' href='http://" + nlink + "'>" + nlink + "</a>";
           } else {
-            outmessage = "<a class='url-link' target='_blank' href='" + link + "'>" + link + "</a>";
+            url_out = "<a class='url-link' target='_blank' href='" + nlink + "'>" + nlink + "</a>";
           }
+          words[ii] = url_out;
+          outmessage = words.join(' ').toString();
+
         }
       });
 
-      return outmessage;
-      
+    } 
     
-    } else {
-      return msg;
-    }
+    return outmessage;
     
   }
   
