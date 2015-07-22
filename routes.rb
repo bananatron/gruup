@@ -80,6 +80,16 @@ get '/c/:room' do
 end
 
 
+#GET Add Room
+get '/c/add/:roomname' do
+  rn = params[:roomname]
+  createRoom(rn, @username, false)
+  redirect to('/c/' + rn);
+end
+
+
+
+
 #Default user page for self
 get '/u' do
   @user_color = getUserData(@username, "color")

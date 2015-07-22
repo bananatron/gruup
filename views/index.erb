@@ -6,21 +6,29 @@
     <% @public_rooms.each do |roomname, roomdata| %>
         <a href="/c/<%= roomname %>">
         <div class="room-listing">
-        <div class="roomname">
-
-            <%= roomname %>
-
-            <% if @username && roomdata["users"][@username] && roomdata["users"][@username]["admin"] == true  %>
-                <i class="fa fa-asterisk"></i> 
-            <% end %>
-            
-        </div>
+            <div class="roomname">
+    
+                <%= roomname %>
+    
+                <% if @username && roomdata["users"][@username] && roomdata["users"][@username]["admin"] == true  %>
+                    <i class="fa fa-asterisk"></i> 
+                <% end %>
+                
+            </div>
 
         </div>
         </a>
     
     <% end %>
+    
+    <a href="#">
 
+            <div class="roomname"><i class="fa fa-plus-square"></i> start a room</div>
+
+        
+    </a>
+    
+    
 </roomlist>
 
 <% if @user_rooms.length > 0 && @username %>

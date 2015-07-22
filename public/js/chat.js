@@ -92,17 +92,14 @@
             ($(this).toggleClass('active'));
         })
         
+        // $('message').hover(function(ee) { //This should stay in css for speeeeed
+        //     var $authdiv = $(ee.currentTarget).find('.author');
+        //     $authdiv.css('margin', '0 10px 0 0');
+        // }, function(ee) {
+        //     var $authdiv = $(ee.currentTarget).find('.author');
+        //     $authdiv.css('margin', '0px 5px 0 5px');
+        // });
 
-
-        $('message').hover(function(ee) {
-            var $authdiv = $(ee.currentTarget).find('.author');
-            $authdiv.css('margin', '0 10px 0 0');
-        }, function(ee) {
-            var $authdiv = $(ee.currentTarget).find('.author');
-            $authdiv.css('margin', '0px 5px 0 5px');
-        });
-
-    
     }, 500);
     
 
@@ -347,7 +344,7 @@
     if (usrs ){
     usrs.forEach( function( username, ii ){
         var stripped_msg = msg.replace(username,'').trim();
-        var userNotices = new Firebase("https://h4xchat.firebaseio.com/users/" + username.replace('@','') + "/notices/");
+        var userNotices = new Firebase("https://h4xchat.firebaseio.com/users/" + username.replace('@','').trim() + "/notices/");
         
         userNotices.push({
           room: room_name,

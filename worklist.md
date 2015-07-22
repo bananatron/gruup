@@ -3,6 +3,7 @@
 
 - Deal with dates
 - tab notifications
+- test can see private chat they aren't a part of
 
 - Hex update on keyup
 - Admin to grant admin access

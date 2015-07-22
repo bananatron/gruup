@@ -100,9 +100,9 @@ message .author {
           transition: margin 0.2s;
 }
 
-/*.author:hover {*/ 
-/*  margin: 0 10px 0 0;*/
-/*}*/
+.author:hover {
+  margin: 0 10px 0 0;
+}
 
 message .timestamp {
   -webkit-box-ordinal-group: 2;
