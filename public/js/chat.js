@@ -167,6 +167,18 @@
           msg = "";
         break;
         
+        case "grantadmin":
+          $.post( "/admin/grantadmin", { user: arg, room: room_name })
+          .done(function( data ) {
+            firebaseRef.push({
+              message: cleanMessage(data),
+              timestamp: getDate(),
+              author: 'System'
+            });
+          });
+          msg = "";
+        break;
+        
         default:
           msg = "No such command.";
       }

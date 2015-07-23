@@ -25,6 +25,7 @@ end
 
 
 def getUserData(user, data=nil)
+  return false if !user || user == ""
   if data
     return $fb_root.get("/users/#{user}/#{data}").body
   else 
@@ -52,6 +53,10 @@ end
 def addUserToRoom(user, room, admin=false )
   $fb_root.set(  "/chats/#{room}/users/#{user}", :admin => admin, :added_on => getTime() )
 end
+
+#def grantAdmin(user, room )
+#  $fb_root.update(  "/chats/#{room}/users/#{user}", :admin => true )
+#end
 
 
 def removeUsersFromRoom(user, room, message=nil )

@@ -445,6 +445,31 @@ notices .notice:nth-child(1) {
   margin-right:15px;
 }
 
+.new-room {
+  height: 38px;
+  padding:5px;
+  font-size:12px;
+}
+
+.check-container {
+  display:flex;
+}
+
+label {
+  font-size: 2em;
+  text-align:left;
+  vertical-align:middle;
+  margin: auto 0 auto 0
+
+}
+
+input[type=checkbox] {
+   display:block;
+   width:30px;
+   margin:auto;
+   padding: 5px;
+   
+}
 
 
 /* mobile */

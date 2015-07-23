@@ -36,10 +36,29 @@ end
 get '/' do
   @global_users = $global_users.get("/").body
   @public_rooms = getPublicRooms()
-  @user_rooms = getUserRooms("spenser")
+  @user_rooms = getUserRooms(@username)
   erb :index
 end
 
+
+#GET Create a room screan
+get '/c/new' do
+  
+  erb :new
+end
+
+#POST Create a room screan
+post '/c/new' do
+  
+  rn = params[:roomname].strip.gsub(/\W+/,'-')
+  pp = true if params[:private]
+  pp ? pp = true : pp = false
+  
+  createRoom(rn, @username, pp)
+  
+  #puts pp.class
+  redirect to('/c/' + rn);
+end
 
 
 #GET Room by name
@@ -78,6 +97,10 @@ get '/c/:room' do
   end
   
 end
+
+
+
+
 
 
 #GET Add Room
@@ -266,6 +289,33 @@ post '/admin/add' do
   
   return "#{uu} added to #{rmm}!"
 end
+
+
+#POST Admin add to room (AJAX)
+post '/admin/grantadmin' do
+  
+  uu = params[:user].to_s
+  rmm = params[:room].to_s
+  
+  return "There's no user by the name of #{uu}." if !getUserData(uu)
+    
+  if getUsersInRoom(rmm)[uu]
+    begin
+    if isAdmin?(@username, rmm)
+      addUserToRoom(uu, rmm, true)
+      return "#{uu} has been granted admin access for #{rmm}!"
+    else 
+      return "You aren't allowed to do that!"
+    end
+    rescue
+      return "Error happened!"
+    end
+  else 
+    return "That user isn't in the room yet. Use '/add' to do such a thing."
+  end
+  
+end
+ 
 
 
 #Error 500

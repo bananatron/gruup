@@ -1,7 +1,7 @@
 
 <roomlist>
     
-    <h3><i class="fa fa-eye"></i> Public Rooms</h3>
+    <h3><i class="fa fa-eye"></i> Public Rooms <% if @username %><a href="/c/new"><i class="fa fa-plus-square"></i></a><% end %></h3>
 
     <% @public_rooms.each do |roomname, roomdata| %>
         <a href="/c/<%= roomname %>">
@@ -21,19 +21,10 @@
     
     <% end %>
     
-    <a href="#">
-
-            <div class="roomname"><i class="fa fa-plus-square"></i> start a room</div>
-
-        
-    </a>
-    
-    
 </roomlist>
 
 <% if @user_rooms.length > 0 && @username %>
 <roomlist>
-    
     <h3><i class="fa fa-eye-slash"></i> Private Rooms</h3>
     
     <% @user_rooms.each do |roomname, roomdata| %>

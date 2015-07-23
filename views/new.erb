@@ -1,0 +1,21 @@
+<% if @username %>
+
+<h3>Create a new room</h3>
+<form name="app_submission" action="/c/new" method="post">
+  <div class="form-group">
+    <input type="text" class="form-control" name="roomname" placeholder="Room Name" value="">
+  </div>
+  <div class="form-group">
+    <div class="check-container">
+    <label for="private">Private <i class='fa fa-question-circle'></i></label>
+    <input class="checkbox" type="checkbox" name="private" value="true"> 
+    </div>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<% else %>
+
+You need to <a href="/login">log in</a> before you can make a room.
+
+<% end %>
