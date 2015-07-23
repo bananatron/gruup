@@ -43,6 +43,9 @@ def isAdmin?(user, room)
   return $fb_root.get("chats/#{room}/users/#{user}/admin").body
 end
 
+def changeRoomStatus(room, priv=false)
+  $fb_root.update(  "/chats/#{room}", :private => priv)
+end
 
 def createRoom(room_name, admin, private=false)
   $fb_root.set(  "/chats/#{room_name}", :private => private, :created_on => getTime())

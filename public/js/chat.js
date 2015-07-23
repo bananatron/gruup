@@ -138,8 +138,9 @@
         case "help":
           var msg = "Try some of these commands out: ";
           if (admin == true) {
-            msg += "<br><br>It also looks like you're an admin for this room. You can <b>/add</b> and <b>/remove</b> people from the channel,"
-            msg += " as well as change the channel's privacy settings with <b>/room public</b> or <b>/room private</b> (Private doesn't work yet)."
+            msg += "<br><br>It also looks like you're an admin for this room (don't let the power get to yoru head). You can <b>/add</b> and <b>/remove</b> people from the channel,"
+            msg += " as well as change the channel's privacy settings with <b>/room public</b> or <b>/room private</b>. In addition, you can grant others "
+            msg += "admin access with <b>/grantaccess</b>. "
           }
         break;
         
@@ -169,6 +170,18 @@
         
         case "grantadmin":
           $.post( "/admin/grantadmin", { user: arg, room: room_name })
+          .done(function( data ) {
+            firebaseRef.push({
+              message: cleanMessage(data),
+              timestamp: getDate(),
+              author: 'System'
+            });
+          });
+          msg = "";
+        break;
+        
+        case "room":
+          $.post( "/roomstatus", { status: arg, room: room_name })
           .done(function( data ) {
             firebaseRef.push({
               message: cleanMessage(data),

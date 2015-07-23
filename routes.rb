@@ -305,7 +305,7 @@ post '/admin/grantadmin' do
       addUserToRoom(uu, rmm, true)
       return "#{uu} has been granted admin access for #{rmm}!"
     else 
-      return "You aren't allowed to do that!"
+      return "You aren't allowed to do that."
     end
     rescue
       return "Error happened!"
@@ -316,6 +316,28 @@ post '/admin/grantadmin' do
   
 end
  
+#Change room public/private
+post '/roomstatus' do
+  puts params
+  rmm = params[:room]
+  rs = params[:status].strip
+
+  return "Not a valid argument for that command" if rs != "private" && rs != "public"
+  
+  if isAdmin?(@username, rmm)
+    
+    return "Room is already private" if rs == "private" && roomPrivate?(rmm)
+    
+    changeRoomStatus(rmm, rs == "private")
+    return "Room set to #{rs}"
+    
+    
+  else 
+    return "You aren't allowed to do that."
+  end
+  
+  
+end
 
 
 #Error 500
