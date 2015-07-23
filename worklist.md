@@ -1,15 +1,17 @@
+#WORKLIST BRUH
+
+#BUGS
+-/help should reflect admin immediatley without refresh
+- Removed users should get kicked immediately
 
 #TODO
-
 - Deal with dates
 - tab notifications
-- test can see private chat they aren't a part of
-
 - Hex update on keyup
-- Admin to grant admin access
-- Room creation / deletion
 - Store url in session so you can go to the right place
-- Removed users should get kicked immediately
+X test can see private chat they aren't a part of
+X Admin to grant admin access
+~ Room creation / deletion
 
 
 #General

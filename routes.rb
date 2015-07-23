@@ -50,7 +50,7 @@ end
 #POST Create a room screan
 post '/c/new' do
   
-  rn = params[:roomname].strip.gsub(/\W+/,'-')
+  rn = params[:roomname].strip.gsub(/\W+/,'-').downcase
   pp = true if params[:private]
   pp ? pp = true : pp = false
   
