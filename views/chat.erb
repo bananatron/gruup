@@ -72,7 +72,26 @@
   var usersGlobal = new Firebase("https://h4xchat.firebaseio.com/users");
   var usersChat = new Firebase("https://h4xchat.firebaseio.com/chats/"+ room_name + "/users");
   var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name + "/messages/" + month_time);
-  
+  var UNREAD = 0;
+
+function onBlur() {
+	document.body.className = 'blurred';
+};
+function onFocus(){
+	document.body.className = 'focused';
+	document.title = "GRÜUP"
+	UNREAD = 0;
+};
+
+if (/*@cc_on!@*/false) { // check for Internet Explorer
+	document.onfocusin = onFocus;
+	document.onfocusout = onBlur;
+} else {
+	window.onfocus = onFocus;
+	window.onblur = onBlur;
+}
+
+
 </script>
 <script src="/js/chat.js"></script>
 

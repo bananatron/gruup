@@ -282,32 +282,37 @@
     
     //Creates message and appends to messages box
     var createMessage = function(message, id, time, author){
-    
-    var msg = this.view = document.createElement("message");
-    msg.setAttribute('id', id);
-    
-    var aa = msg.appendChild(document.createElement("div"));
-    aa.setAttribute('class', 'author');
-    aa.innerHTML = author;
-    
-    if (author.indexOf('System')== -1) { //System messages
-      var uu = new Firebase(usersGlobal + '/' + author);
-      uu.once("value", function(data) {
-        aa.setAttribute('style', 'background-color:#'+ data.val().color)
-      });
-    }
-    
-    var mm = msg.appendChild(document.createElement("div"));
-    mm.setAttribute('class', 'message');
-    mm.innerHTML = outputLinks(message).toString();
-    
-    var tt = msg.appendChild(document.createElement("div"));
-    tt.setAttribute('class', 'timestamp');
-    tt.innerHTML = time;
-    
-    $(msg).appendTo('messages');
-    
-    setTimeout(function(){ scrollToBottom(false) }, 200);
+
+      var msg = this.view = document.createElement("message");
+      msg.setAttribute('id', id);
+      
+      var aa = msg.appendChild(document.createElement("div"));
+      aa.setAttribute('class', 'author');
+      aa.innerHTML = author;
+      
+      if (author.indexOf('System')== -1) { //System messages
+        var uu = new Firebase(usersGlobal + '/' + author);
+        uu.once("value", function(data) {
+          aa.setAttribute('style', 'background-color:#'+ data.val().color)
+        });
+      }
+      
+      var mm = msg.appendChild(document.createElement("div"));
+      mm.setAttribute('class', 'message');
+      mm.innerHTML = outputLinks(message).toString();
+      
+      var tt = msg.appendChild(document.createElement("div"));
+      tt.setAttribute('class', 'timestamp');
+      tt.innerHTML = time;
+      
+      $(msg).appendTo('messages');
+      
+      setTimeout(function(){ scrollToBottom(false) }, 200);
+      
+      if (document.body.className == 'blurred') {
+        UNREAD += 1;
+        document.title = "GRUUP (" + UNREAD + ")";
+      }
     };
     
     
