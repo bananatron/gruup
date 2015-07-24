@@ -72,21 +72,14 @@ message:hover {
 }
 
 
-
-
 message > div {
   padding: 5px 10px 5px 10px;
 }
 
 message .message {
-  /*  background-color:lightsalmon;*/
-  
   -webkit-box-flex: 10;
-  
   -webkit-flex-grow: 10;
-  
       -ms-flex-positive: 10;
-  
           flex-grow: 10;
 }
 

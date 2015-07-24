@@ -51,7 +51,7 @@
     
     //Enter key submit
     $(".textmock").keyup(function (e) {
-    if (e.keyCode == 13 && event.shiftKey != true) sendMessage(); //Allows shift - !! still doesn't put \n
+      if (e.keyCode == 13 && e.shiftKey != true) sendMessage(); //Allows shift - !! still doesn't put \n
     });
     
     
@@ -78,32 +78,13 @@
     
     //Toggle userlist visibility
     $(".toggle-userlist").click(function(){
-    $('.users-in-room').slideToggle();
+      $('.users-in-room').slideToggle();
     });
     
     $(".scroll-to-bottom").click(function(){
         scrollToBottom(true);
     });
     
-    
-    setTimeout(function(){
-        $('message').click(function(){
-            console.log($(this));
-            ($(this).toggleClass('active'));
-        })
-        
-        // $('message').hover(function(ee) { //This should stay in css for speeeeed
-        //     var $authdiv = $(ee.currentTarget).find('.author');
-        //     $authdiv.css('margin', '0 10px 0 0');
-        // }, function(ee) {
-        //     var $authdiv = $(ee.currentTarget).find('.author');
-        //     $authdiv.css('margin', '0px 5px 0 5px');
-        // });
-
-    }, 500);
-    
-
-
     
     
     
@@ -134,7 +115,7 @@
       var cmd = cmd_string.split(" ")[0];
       var arg = cmd_string.split(" ")[1];
       
-      switch(cmd) {
+      switch(cmd) { //Maybe have this handled serverside as well for genuine admin check?
         case "help":
           var msg = "Try some of these commands out: ";
           if (admin == true) {
@@ -252,7 +233,7 @@
     
     var isImgLink = function(word){
     
-    if (_endsWith(word, '.jpg') || _endsWith(word, '.gif') || _endsWith(word, '.png') || _endsWith(word, '.bmp')) return true;
+      if (_endsWith(word, '.jpg') || _endsWith(word, '.gif') || _endsWith(word, '.png') || _endsWith(word, '.bmp')) return true;
     
     }
     
@@ -306,6 +287,10 @@
       tt.innerHTML = time;
       
       $(msg).appendTo('messages');
+      
+      $(msg).click(function(){
+        ($(this).toggleClass('active'));
+      });
       
       setTimeout(function(){ scrollToBottom(false) }, 200);
       
