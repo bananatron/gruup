@@ -1,0 +1,7 @@
+<% @users.each do |user_key, user_details| %>
+
+<div style="background-color:#<%= user_details["color"].strip%>; padding:10px;">
+    <%= user_key.strip %>
+</div>
+
+<% end %>

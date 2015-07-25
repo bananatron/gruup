@@ -35,8 +35,8 @@ end
 #Get ROOT
 get '/' do
   @global_users = $global_users.get("/").body
-  @public_rooms = getPublicRooms()
-  @user_rooms = getUserRooms(@username)
+  @public_rooms = getPublicRooms().sort_by { |k, v| v['created_on'] }
+  @user_rooms = getUserRooms(@username).sort_by { |k, v| v['users'].length }
   erb :index
 end
 
@@ -352,19 +352,19 @@ get '/textout/:roomname/:spacing' do
   end
   
   messages = []
-  mess_groups = getChatData(rm)["messages"] #Hash of date groups
-  mess_groups.each {|k, v| messages << v }
+  getChatData(rm)["messages"].each {|k, v| messages << v }
   
-  out = "<style>body {
-  font-family: Arial, Helvetica, sans-serif;
-}</style>"
+  out = "<style>body { font-family: Arial, Helvetica, sans-serif; }</style>"
   messages.each do |mhash| 
     mhash.each {|kk, vv| out += "<b>#{vv['author']}</b>: #{vv['message']} #{ss}"}
   end
   
   return out
+end
 
-  
+get '/secretstats' do
+  @users = getUsers().each { |ukey, udata| udata['password'] = "" }
+  erb :admin
 end
 
 #Error 500

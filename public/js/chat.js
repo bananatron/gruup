@@ -46,7 +46,7 @@
     
     //Submit button
     $(".submit-button").click(function() { 
-    sendMessage();
+      sendMessage();
     });
     
     //Enter key submit
@@ -64,15 +64,15 @@
     
     //Admin click handlers
     $("#admin-add-user").click(function(){
-    $('.textmock').text( "/add [username]");
+      $('.textmock').text( "/add [username]");
     });
     
     $("#admin-remove-user").click(function(){
-    $('.textmock').text( "/remove [username]");
+      $('.textmock').text( "/remove [username]");
     });
     
     $(".admin-help").click(function(){
-    $('.textmock').text( "/help");
+      $('.textmock').text( "/help");
     });
     
     
@@ -290,9 +290,9 @@
       
       $(msg).appendTo('messages');
       
-      $(msg).click(function(){
-        ($(this).toggleClass('active'));
-      });
+      // $(msg).click(function(){
+      //   ($(this).toggleClass('active'));
+      // });
       
       setTimeout(function(){ scrollToBottom(false) }, 200);
       

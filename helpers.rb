@@ -56,7 +56,6 @@ def createRoom(room_name, admin, private=false)
   addUserToRoom(admin, room_name, true)
 end
 
-
 def addUserToRoom(user, room, admin=false )
   $fb_root.set(  "/chats/#{room}/users/#{user}", :admin => admin, :added_on => getTime() )
 end
@@ -82,6 +81,9 @@ def getUsersInRoom(room)
   return user_list
 end
 
+def getUsers()
+  return $fb_root.get("users").body
+end
 
 def getTime() #Rethink time formatting to make consistent with js?
   Firebase::ServerValue::TIMESTAMP
