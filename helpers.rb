@@ -84,5 +84,6 @@ end
 
 
 def getTime() #Rethink time formatting to make consistent with js?
-  Time.now.to_s 
+  Firebase::ServerValue::TIMESTAMP
+  #Time.now.to_s 
 end

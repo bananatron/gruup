@@ -193,7 +193,7 @@
       var mmsg = cleanMessage($('.textmock').text());
       firebaseRef.push({
         message: cleanMessage( mmsg),
-        timestamp: getDate(),
+        timestamp: Firebase.ServerValue.TIMESTAMP,
         author: userName
       });
       
@@ -263,6 +263,8 @@
     
     //Creates message and appends to messages box
     var createMessage = function(message, id, time, author){
+      
+      var datetime = new Date(time);
 
       var msg = this.view = document.createElement("message");
       msg.setAttribute('id', id);
@@ -284,7 +286,7 @@
       
       var tt = msg.appendChild(document.createElement("div"));
       tt.setAttribute('class', 'timestamp');
-      tt.innerHTML = time;
+      tt.innerHTML = datetime.getMonth() + '/' + datetime.getDate() + '  ' + datetime.getHours() + ":" + datetime.getMinutes();
       
       $(msg).appendTo('messages');
       
@@ -349,9 +351,10 @@
     
     
     var getDate = function(){
-    var dt = new Date();
+      return Firebase.ServerValue.TIMESTAMP;
+    //var dt = new Date();
     //var dlit = dt.toDateString();
-    return dt.getMonth() + '/' + dt.getDay() + '/' + dt.getFullYear() + ' ' + dt.getHours() + ':' + dt.getMinutes();
+    //return dt.getMonth() + '/' + dt.getDay() + '/' + dt.getFullYear() + ' ' + dt.getHours() + ':' + dt.getMinutes();
     }
     
     var notifyTags = function(msg){
@@ -364,7 +367,7 @@
         userNotices.push({
           room: room_name,
           message: stripped_msg,
-          time: date
+          time: Firebase.ServerValue.TIMESTAMP
         });
       
     });
