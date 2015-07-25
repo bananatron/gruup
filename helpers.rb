@@ -38,6 +38,10 @@ def roomPrivate?(room)
   $fb_root.get("/chats/#{room}/private").body
 end
 
+def getChatData(room)
+  $fb_root.get("/chats/#{room}").body
+end
+
 
 def isAdmin?(user, room)
   return $fb_root.get("chats/#{room}/users/#{user}/admin").body

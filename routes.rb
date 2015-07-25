@@ -340,10 +340,39 @@ post '/roomstatus' do
 end
 
 
+get '/textout/:roomname/:spacing' do
+  content_type :html
+  rm = params[:roomname]
+  spacing = params[:spacing].to_i || 2
+  ss = ""
+  spacing.times { ss += "<br>"}
+
+  if roomPrivate?(rm)
+     return "Not accessible." if !getUsersInRoom(rm).include? @username
+  end
+  
+  messages = []
+  mess_groups = getChatData(rm)["messages"] #Hash of date groups
+  mess_groups.each {|k, v| messages << v }
+  
+  out = "<style>body {
+  font-family: Arial, Helvetica, sans-serif;
+}</style>"
+  messages.each do |mhash| 
+    mhash.each {|kk, vv| out += "<b>#{vv['author']}</b>: #{vv['message']} #{ss}"}
+  end
+  
+  return out
+
+  
+end
+
 #Error 500
 error 500 do
   erb :error
 end
+
+
 
 
 # get '/testcreate' do
