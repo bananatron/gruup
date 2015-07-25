@@ -286,7 +286,7 @@
       
       var tt = msg.appendChild(document.createElement("div"));
       tt.setAttribute('class', 'timestamp');
-      tt.innerHTML = datetime.getMonth() + '/' + datetime.getDate() + '  ' + datetime.getHours() + ":" + datetime.getMinutes();
+      tt.innerHTML = datetime.getMonth()+1 + '/' + datetime.getDate() + '  ' + datetime.getHours() + ":" + datetime.getMinutes();
       
       $(msg).appendTo('messages');
       
