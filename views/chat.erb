@@ -64,7 +64,9 @@
 <script>
 
   var userName = "<%= @username %>"
+  console.log(window.location.href);
   var MESSAGE_LIMIT = 60;
+  if (window.location.search.split('?')[1] == 'all') MESSAGE_LIMIT = 9999;
   var date = new Date();
   var month_time = date.getMonth().toString() + date.getYear().toString();
   var room_name = "<%= @room %>";

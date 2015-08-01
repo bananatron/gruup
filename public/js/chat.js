@@ -1,14 +1,33 @@
     
-    //Pull messages and start listening
-    firebaseRef.limitToLast(MESSAGE_LIMIT).on('child_added', function(child) {
-    
-    var msg = child.val();
-    //Object.getOwnPropertyNames(msg)
-    createMessage(msg.message, child.key(), msg.timestamp, msg.author );
-    
-    }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
+    //Check to see if we need to pull from last month's messages
+    firebaseRef.once("value", function(snap) {
+      if (snap.numChildren() < MESSAGE_LIMIT){
+        var om = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name + "/messages/" + (date.getMonth()-1).toString() + date.getYear().toString());
+      
+        om.limitToLast(MESSAGE_LIMIT).once("value", function(messages) {
+          
+          messages.forEach(function(child){
+            var msg = child.val();
+            createMessage(msg.message, child.key(), msg.timestamp, msg.author );
+          });
+        });
+      }
+      
+      //Pull messages and start listening
+      firebaseRef.limitToLast(MESSAGE_LIMIT).on('child_added', function(child) {
+      
+      var msg = child.val();
+      //Object.getOwnPropertyNames(msg)
+      createMessage(msg.message, child.key(), msg.timestamp, msg.author );
+      
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+        
+      
     });
+    
+
     
     
     //User visibility live updates below chat text box
@@ -39,10 +58,10 @@
     
     setTimeout(function(){ scrollToBottom(false) }, 1000);
     
+    
     ////////////////////
     // CLICKY THANGS //
     //////////////////
-    
     
     //Submit button
     $(".submit-button").click(function() { 
@@ -87,8 +106,6 @@
     
     
     
-    
-    
     ///////////////
     // HELPERS ///
     /////////////
@@ -107,9 +124,9 @@
     //Sends message to firebase
     var sendMessage = function(){
     
-    if ($('.textmock').text().trim() == "") return false; //If not blank
-    
-    if ($('.textmock').text().trim().indexOf('/') == 0){ //Slash command prob will abstract this out
+      if ($('.textmock').text().trim() == "") return false; //If not blank
+      
+      if ($('.textmock').text().trim().indexOf('/') == 0){ //Slash command prob will abstract this out
     
       var cmd_string = $('.textmock').text().trim().replace("/","");
       var cmd = cmd_string.split(" ")[0];
@@ -188,29 +205,29 @@
       $('.textmock').empty();
     
     
-    } else { //Non-slash command (normal message)
-    
-      var mmsg = cleanMessage($('.textmock').text());
-      firebaseRef.push({
-        message: cleanMessage( mmsg),
-        timestamp: Firebase.ServerValue.TIMESTAMP,
-        author: userName
-      });
+      } else { //Non-slash command (normal message)
       
-      notifyTags(mmsg);
-      
-      $('.textmock').empty(); //Empty field
-      //var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
-      scrollToBottom(false);
-      
-    }
+        var mmsg = cleanMessage($('.textmock').text());
+        firebaseRef.push({
+          message: cleanMessage( mmsg),
+          timestamp: Firebase.ServerValue.TIMESTAMP,
+          author: userName
+        });
+        
+        notifyTags(mmsg);
+        
+        $('.textmock').empty(); //Empty field
+        //var scrollBottom = $('chat-window').scrollTop() + $('chat-window').height();
+        scrollToBottom(false);
+        
+      }
     
     };
     
     
     
     
-    var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
+    //var esctags = ['a', 'javascript', 'marquee'] //Maybe use an array to go through the tags for removal? idk
     var cleanMessage = function(message){ //TODO !! make this actually work well
     
     var msg = message;
@@ -358,45 +375,20 @@
     }
     
     var notifyTags = function(msg){
-    var usrs = msg.match(/(?:^|\W)@(\w+)(?!\w)/g);
-    if (usrs ){
-    usrs.forEach( function( username, ii ){
-        var stripped_msg = msg.replace(username,'').trim();
-        var userNotices = new Firebase("https://h4xchat.firebaseio.com/users/" + username.replace('@','').trim() + "/notices/");
-        
-        userNotices.push({
-          room: room_name,
-          message: stripped_msg,
-          time: Firebase.ServerValue.TIMESTAMP
+      var usrs = msg.match(/(?:^|\W)@(\w+)(?!\w)/g);
+      if (usrs ){
+        usrs.forEach( function( username, ii ){
+            var stripped_msg = msg.replace(username,'').trim();
+            var userNotices = new Firebase("https://h4xchat.firebaseio.com/users/" + username.replace('@','').trim() + "/notices/");
+            
+            userNotices.push({
+              room: room_name,
+              message: stripped_msg,
+              time: Firebase.ServerValue.TIMESTAMP
+            });
+          
         });
-      
-    });
+      }
     }
-    }
-    
-    // //Create eventListner for onclick event of stickers button
-    // $('.stickers-modal-button').on('click', function(e) {
-    //   var connectionStr = 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=pugs&jsoncallback=?';
-    //   var $img = $("<img>");
-    //   var maxNumOfImages = 10;
-    //   $.getJSON(connectionStr, function(data) {
-    //       //Loop through each item of the response
-    //       data.items.forEach(function(photo) {
-    //         //Initialize the $img obj to blank <img> tag
-    //         $img = $("<img>").addClass('stickerItem');
-    //         if(maxNumOfImages === 0) {
-    //           return;
-    //         }
-    //         //Append the img URL to $img obj
-    //         $img.attr("src", photo.media.m);
-    //         $li = $("<li>").addClass('stickerItem');
-    
-    //         $li.append($img)
-    //         $(".stickerImages").append($li);
-    //         maxNumOfImages--;
-    //       });        
-    //   });
-    //   $('#dialog').css('display', 'block');
-    // });
     
     

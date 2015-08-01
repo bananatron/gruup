@@ -28,6 +28,7 @@ before do
   @time = getTime()
   @username = session['user'] if session['user']
   #@username = "jofuzz"
+  #@messagelimit = 60
 end
 
 
@@ -63,6 +64,7 @@ end
 
 #GET Room by name
 get '/c/:room' do
+  
   @room = params[:room]
   @user_color = getUserData(@username, "color")
   sendView = :noauth
