@@ -1,25 +1,3 @@
-<roomlist>
-    
-    <h3><i class="fa fa-eye"></i> Public Rooms <% if @username %><a href="/c/new"><i class="fa fa-plus-square"></i></a><% end %></h3>
-
-    <% @public_rooms.to_a.reverse.to_h.each do |roomname, roomdata| %>
-        <a href="/c/<%= roomname %>">
-        <div class="room-listing">
-            <div class="roomname">
-    
-                <%= roomname %>
-                <% if @username && roomdata["users"][@username] && roomdata["users"][@username]["admin"] == true  %>
-                    <i class="fa fa-asterisk"></i> 
-                <% end %>
-                
-            </div>
-
-        </div>
-        </a>
-    
-    <% end %>
-    
-</roomlist>
 
 <% if @user_rooms.length > 0 && @username %>
 <roomlist>
@@ -51,8 +29,28 @@
 <% end %>
 
 <roomlist>
+    
+  <h3><i class="fa fa-eye"></i> Public Rooms <% if @username %><a href="/c/new"><i class="fa fa-plus-square"></i></a><% end %></h3>
+
+  <% @public_rooms.to_a.reverse.to_h.each do |roomname, roomdata| %>
+    <a href="/c/<%= roomname %>">
+    <div class="room-listing">
+        <div class="roomname">
+            <%= roomname %>
+            <% if @username && roomdata["users"] && roomdata["users"][@username] && roomdata["users"][@username]["admin"] == true  %>
+                <i class="fa fa-asterisk"></i> 
+            <% end %>
+        </div>
+
+    </div>
+    </a>
+
+  <% end %>
+</roomlist>
+
+<roomlist>
     <h3><i class="fa fa-question-circle"></i> What is Gruup?</h3>
-    <p>Gruup is a lightweight, minimalistic group chat platform, where we don't sell your soul to the devil.</p>
+    <p>Gruup is a lightweight, minimalistic group chat platform.</p>
     <p>Whether you're chatting privately with friends, or want to talk to weirdos on the Internet, we've got you covered.</p>
-    <p>GRUUP is still under heavy development and stuff is changing all the time, so be patient and report bugs in <a href="/c/dev">c/dev</a>.</p>
+    <p>Report bugs in <a href="/c/dev">c/dev</a>.</p>
 </roomlist>

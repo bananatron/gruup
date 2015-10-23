@@ -68,7 +68,7 @@
 
 <script>
 
-  var userNotes = new Firebase("https://h4xchat.firebaseio.com/users/" + '<%= @username %>' + "/notices/" );
+  var userNotes = new Firebase("https://gruupchat.firebaseio.com/users/" + '<%= @username %>' + "/notices/" );
   userNotes.on('child_added', function(note) {
 
     var nn = this.view = document.createElement('div');
@@ -90,7 +90,7 @@
       
       $(this).parent().slideUp("fast", function() { $(this).remove(); } );
       
-      var noticeRemove = new Firebase("https://h4xchat.firebaseio.com/users/" + "<%= @username %>" + "/notices/" + noticeId );
+      var noticeRemove = new Firebase("https://gruupchat.firebaseio.com/users/" + "<%= @username %>" + "/notices/" + noticeId );
       noticeRemove.remove();
       
       

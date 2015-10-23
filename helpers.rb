@@ -1,8 +1,6 @@
 #//////////////
 #// HELPERS //
 #////////////
-
-
 def getPublicRooms()
   public_rooms = {}
   $fb_root.get("/chats").body.each do |roomname, roomdata|

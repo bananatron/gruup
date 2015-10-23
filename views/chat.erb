@@ -32,30 +32,12 @@
    <i class="fa fa-chevron-circle-down scroll-to-bottom"></i> <i class="fa fa-info-circle admin-help"></i>
   
   <% if @private %>
-
-    <% if @admin %>
-    <!--<div class="admin-button-container">-->
-    <!--  <button class="admin-button bg-green" id="admin-add-user"><i class="fa fa-plus"></i></button>-->
-    <!--  <button class="admin-button bg-red" id="admin-remove-user"><i class="fa fa-times"></i></button>-->
-    <!--  <button class="admin-button bg-blue" id="admin-help"><i class="fa fa-question"></i></button>-->
-    <!--</div>-->
-    <% end %>
-  
       <i class="fa fa-eye toggle-userlist"></i><div class="users-in-room"></div>
-      
   <% else %>
-  
       <i class="fa fa-eye"></i> PUBLIC CHAT
-      
   <% end %>
   
 </div>
-
-
-
-
-
-
 
 
 
@@ -74,9 +56,9 @@
   var month_time = date.getMonth().toString() + date.getYear().toString();
   var room_name = "<%= @room %>";
   var admin = <%= @admin || false %>;
-  var usersGlobal = new Firebase("https://h4xchat.firebaseio.com/users");
-  var usersChat = new Firebase("https://h4xchat.firebaseio.com/chats/"+ room_name + "/users");
-  var firebaseRef = new Firebase("https://h4xchat.firebaseio.com/chats/" + room_name + "/messages/" + month_time);
+  var usersGlobal = new Firebase("https://gruupchat.firebaseio.com/users");
+  var usersChat = new Firebase("https://gruupchat.firebaseio.com/chats/"+ room_name + "/users");
+  var firebaseRef = new Firebase("https://gruupchat.firebaseio.com/chats/" + room_name + "/messages");
   var UNREAD = 0;
 
 function onBlur() {

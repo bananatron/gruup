@@ -2,10 +2,25 @@ require 'sinatra'
 require 'firebase'
 require 'json'
 require 'digest'
+require 'rufus-scheduler'
+
+
+# scheduler = Rufus::Scheduler.new
+
+# #Eventually change this to age individual messages
+# Will require activerecord time stuff for comparison probably
+# scheduler.every '48h' do
+#   puts "Clearing messages"
+#   getPublicRooms().each do |room, room_data|
+#     $fb_root.set("/chats/#{room}/messages", :messages => {})
+#   end
+# end
+#scheduler.join #Joins current thread
+
 
 require_relative 'helpers'
 
-$base_uri = 'https://h4xchat.firebaseio.com'
+$base_uri = 'https://gruupchat.firebaseio.com'
 $fb_root = Firebase::Client.new($base_uri)
 $global_users = Firebase::Client.new($base_uri + "/users")
 $hash_key =  $fb_root.get("/key").body.to_s
@@ -27,7 +42,6 @@ set :session_secret, $cookie_key
 before do
   @time = getTime()
   @username = session['user'] if session['user']
-  #@username = "jofuzz"
   #@messagelimit = 60
 end
 
@@ -44,13 +58,11 @@ end
 
 #GET Create a room screan
 get '/c/new' do
-  
   erb :new
 end
 
 #POST Create a room screan
 post '/c/new' do
-  
   rn = params[:roomname].strip.gsub(/\W+/,'-').downcase
   pp = true if params[:private]
   pp ? pp = true : pp = false
@@ -64,13 +76,11 @@ end
 
 #GET Room by name
 get '/c/:room' do
-  
   @room = params[:room]
   @user_color = getUserData(@username, "color")
   sendView = :noauth
   
   begin
-    
     @chat_users = getUsersInRoom(@room)
     @private = roomPrivate?(@room) 
     @admin = false
@@ -97,12 +107,7 @@ get '/c/:room' do
   rescue 
     halt 500
   end
-  
 end
-
-
-
-
 
 
 #GET Add Room
@@ -111,8 +116,6 @@ get '/c/add/:roomname' do
   createRoom(rn, @username, false)
   redirect to('/c/' + rn);
 end
-
-
 
 
 #Default user page for self
@@ -129,12 +132,12 @@ end
 
 
 #Change color
-get '/color/:hex' do #Change color value for your user - will have user settings later on
+post '/u/color' do #Change color value for your user - will have user settings later on
   if session['user']
-    hex = params[:hex]
+    hex = params[:hex].gsub('#', '')
     $global_users.update("/#{session['user']}", :color => hex) if hex.length == 3 || hex.length == 6
   end
-  redirect to('/');
+  redirect to('/u');
 end
 
 
@@ -211,7 +214,7 @@ end
 
 #POST login
 post '/login' do
-  #redirect based on cases/validation
+  #Redirect based on cases/validation
   username = params[:username].downcase
   pass_plus = params[:password] + $hash_key
   local_pass = Digest::MD5.hexdigest pass_plus
