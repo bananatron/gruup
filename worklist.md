@@ -1,10 +1,15 @@
 #WORKLIST BRUH
 
 #BUGS
+- notices are creating new user records
+- ^ users aren't downcased or normalized
+
 -/help should reflect admin immediatley without refresh
 - Removed users should get kicked immediately
 
 #TODO
+- POST messages instead of client side
+
 - Deal with dates
 - tab notifications
 - Hex update on keyup
